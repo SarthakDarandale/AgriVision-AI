@@ -1,0 +1,1727 @@
+/* ===========================================
+   AgriVision AI
+   Premium Style Sheet
+=========================================== */
+
+*{
+    margin:0;
+    padding:0;
+    box-sizing:border-box;
+}
+
+html{
+    scroll-behavior:smooth;
+}
+
+body{
+
+    font-family:'Poppins',sans-serif;
+    background:#f5fdf6;
+    color:#333;
+    overflow-x:hidden;
+
+}
+
+/* ===========================================
+            NAVBAR
+=========================================== */
+
+.navbar{
+
+    background:#ffffff !important;
+    box-shadow:0 5px 20px rgba(0,0,0,.08);
+
+}
+
+.navbar-brand{
+
+    font-size:28px;
+    font-weight:700;
+    color:#198754 !important;
+
+}
+
+.nav-link{
+
+    font-weight:500;
+    transition:.3s;
+
+}
+
+.nav-link:hover{
+
+    color:#198754 !important;
+
+}
+
+/* ===========================================
+            HERO SECTION
+=========================================== */
+
+.hero-section{
+
+    background:linear-gradient(
+    135deg,
+    #ecfff2,
+    #dff8e6,
+    #f6fff8);
+
+    min-height:90vh;
+
+    display:flex;
+
+    align-items:center;
+
+}
+
+.hero-section h1{
+
+    font-size:60px;
+
+    font-weight:800;
+
+    line-height:1.2;
+
+}
+
+.hero-section p{
+
+    font-size:20px;
+
+    color:#666;
+
+}
+
+.hero-section img{
+
+    animation:floatImage 5s ease-in-out infinite;
+
+}
+
+/* Floating Image Animation */
+
+@keyframes floatImage{
+
+0%{
+
+transform:translateY(0px);
+
+}
+
+50%{
+
+transform:translateY(-15px);
+
+}
+
+100%{
+
+transform:translateY(0px);
+
+}
+
+}
+
+/* ===========================================
+            BUTTONS
+=========================================== */
+
+.btn{
+
+    border-radius:50px;
+
+    transition:.4s;
+
+    font-weight:600;
+
+}
+
+.btn-success{
+
+    background:#198754;
+
+    border:none;
+
+}
+
+.btn-success:hover{
+
+    transform:translateY(-5px);
+
+    box-shadow:0 10px 30px rgba(25,135,84,.35);
+
+}
+
+.btn-outline-success:hover{
+
+    transform:translateY(-5px);
+
+}
+
+/* ===========================================
+            BADGE
+=========================================== */
+
+.badge{
+
+    padding:10px 18px;
+
+    border-radius:30px;
+
+    font-size:15px;
+
+}
+/* ===========================================
+            SERVICE SECTION
+=========================================== */
+
+.services{
+
+    padding:80px 0;
+
+}
+
+.service-card{
+
+    border:none;
+
+    border-radius:20px;
+
+    overflow:hidden;
+
+    transition:.4s;
+
+    cursor:pointer;
+
+    background:#ffffff;
+
+}
+
+.service-card:hover{
+
+    transform:translateY(-12px);
+
+    box-shadow:0 18px 40px rgba(0,0,0,.15);
+
+}
+
+.service-card .card-body{
+
+    padding:35px 25px;
+
+}
+
+.service-card h4{
+
+    font-weight:700;
+
+    color:#198754;
+
+}
+
+.service-card p{
+
+    color:#666;
+
+    margin-top:15px;
+
+    font-size:15px;
+
+    line-height:1.7;
+
+}
+
+.service-card .display-3{
+
+    font-size:60px;
+
+    transition:.4s;
+
+}
+
+.service-card:hover .display-3{
+
+    transform:scale(1.15) rotate(5deg);
+
+}
+
+.text-decoration-none{
+
+    text-decoration:none !important;
+
+}
+
+/* ===========================================
+      MAHARASHTRA FEATURE SECTION
+=========================================== */
+
+.feature-section{
+
+    padding:90px 0;
+
+}
+
+.feature-section h2{
+
+    font-weight:800;
+
+    color:#198754;
+
+}
+
+.feature-section p{
+
+    font-size:18px;
+
+    color:#555;
+
+    line-height:1.8;
+
+}
+
+.feature-section ul{
+
+    padding-left:0;
+
+}
+
+.feature-section ul li{
+
+    list-style:none;
+
+    margin-bottom:15px;
+
+    font-size:18px;
+
+    color:#444;
+
+}
+
+.feature-section img{
+
+    border-radius:25px;
+
+    transition:.5s;
+
+    box-shadow:0 20px 50px rgba(0,0,0,.15);
+
+}
+
+.feature-section img:hover{
+
+    transform:scale(1.04);
+
+}
+
+/* ===========================================
+         IMAGE SETTINGS
+=========================================== */
+
+img{
+
+    max-width:100%;
+
+    height:auto;
+
+}
+
+/* ===========================================
+        SECTION TITLES
+=========================================== */
+
+section h2{
+
+    font-weight:800;
+
+}
+
+section{
+
+    padding-top:60px;
+
+    padding-bottom:60px;
+
+}
+/* ===========================================
+        WHY CHOOSE US SECTION
+=========================================== */
+
+.why-card{
+
+    background:#ffffff;
+
+    border-radius:20px;
+
+    padding:35px 25px;
+
+    text-align:center;
+
+    transition:.4s;
+
+    box-shadow:0 10px 25px rgba(0,0,0,.08);
+
+    height:100%;
+
+}
+
+.why-card:hover{
+
+    transform:translateY(-10px);
+
+    box-shadow:0 18px 40px rgba(0,0,0,.15);
+
+}
+
+.why-card .display-4{
+
+    font-size:55px;
+
+    margin-bottom:20px;
+
+}
+
+.why-card h4{
+
+    color:#198754;
+
+    font-weight:700;
+
+    margin-bottom:15px;
+
+}
+
+.why-card p{
+
+    color:#666;
+
+    line-height:1.7;
+
+}
+
+/* ===========================================
+        FARMING TIP SECTION
+=========================================== */
+
+.tip-card{
+
+    background:linear-gradient(135deg,#198754,#28a745);
+
+    color:#ffffff;
+
+    border-radius:25px;
+
+    padding:50px;
+
+    box-shadow:0 15px 40px rgba(25,135,84,.30);
+
+}
+
+.tip-card h2{
+
+    font-weight:700;
+
+    margin-bottom:20px;
+
+}
+
+.tip-card p{
+
+    font-size:20px;
+
+    line-height:1.8;
+
+}
+
+.tip-card small{
+
+    color:#e9ffe9;
+
+}
+
+/* ===========================================
+        FINAL CTA
+=========================================== */
+
+.cta-card{
+
+    background:#ffffff;
+
+    border-radius:25px;
+
+    padding:60px 40px;
+
+    text-align:center;
+
+    box-shadow:0 15px 40px rgba(0,0,0,.08);
+
+}
+
+.cta-card h2{
+
+    color:#198754;
+
+    font-weight:800;
+
+}
+
+.cta-card p{
+
+    font-size:18px;
+
+    color:#666;
+
+    margin:25px 0;
+
+    line-height:1.8;
+
+}
+
+/* ===========================================
+        CARD ANIMATION
+=========================================== */
+
+.card{
+
+    transition:.35s;
+
+}
+
+.card:hover{
+
+    transform:translateY(-8px);
+
+}
+
+/* ===========================================
+        SHADOW UTILITIES
+=========================================== */
+
+.shadow-soft{
+
+    box-shadow:0 12px 30px rgba(0,0,0,.08);
+
+}
+
+.shadow-heavy{
+
+    box-shadow:0 20px 50px rgba(0,0,0,.15);
+
+}
+
+/* ===========================================
+        SECTION SPACING
+=========================================== */
+
+.py-5{
+
+    padding-top:90px !important;
+
+    padding-bottom:90px !important;
+
+}
+/* ===========================================
+        RESPONSIVE DESIGN
+=========================================== */
+
+@media (max-width:992px){
+
+.hero-section{
+
+text-align:center;
+
+padding:70px 20px;
+
+}
+
+.hero-section h1{
+
+font-size:42px;
+
+}
+
+.hero-section p{
+
+font-size:18px;
+
+}
+
+.hero-section img{
+
+margin-top:40px;
+
+max-height:350px;
+
+}
+
+.feature-section{
+
+text-align:center;
+
+}
+
+.feature-section img{
+
+margin-top:40px;
+
+}
+
+}
+
+@media (max-width:768px){
+
+.hero-section{
+
+min-height:auto;
+
+padding:60px 15px;
+
+}
+
+.hero-section h1{
+
+font-size:34px;
+
+}
+
+.hero-section p{
+
+font-size:16px;
+
+}
+
+.btn{
+
+width:100%;
+
+margin-bottom:15px;
+
+}
+
+.display-3{
+
+font-size:45px !important;
+
+}
+
+.service-card{
+
+margin-bottom:25px;
+
+}
+
+.tip-card{
+
+padding:35px 20px;
+
+}
+
+.cta-card{
+
+padding:35px 20px;
+
+}
+
+}
+
+@media (max-width:576px){
+
+.navbar-brand{
+
+font-size:22px;
+
+}
+
+.hero-section h1{
+
+font-size:30px;
+
+}
+
+.hero-section p{
+
+font-size:15px;
+
+}
+
+section{
+
+padding-top:50px;
+
+padding-bottom:50px;
+
+}
+
+}
+
+/* ===========================================
+        FADE ANIMATION
+=========================================== */
+
+@keyframes fadeUp{
+
+from{
+
+opacity:0;
+
+transform:translateY(40px);
+
+}
+
+to{
+
+opacity:1;
+
+transform:translateY(0);
+
+}
+
+}
+
+.hero-section,
+.service-card,
+.feature-section,
+.tip-card,
+.cta-card{
+
+animation:fadeUp .8s ease;
+
+}
+
+/* ===========================================
+        CUSTOM SCROLLBAR
+=========================================== */
+
+::-webkit-scrollbar{
+
+width:10px;
+
+}
+
+::-webkit-scrollbar-track{
+
+background:#ecf7ec;
+
+}
+
+::-webkit-scrollbar-thumb{
+
+background:#198754;
+
+border-radius:20px;
+
+}
+
+::-webkit-scrollbar-thumb:hover{
+
+background:#157347;
+
+}
+
+/* ===========================================
+        SELECTION COLOR
+=========================================== */
+
+::selection{
+
+background:#198754;
+
+color:white;
+
+}
+
+/* ===========================================
+        FOOTER
+=========================================== */
+
+footer{
+
+background:#14532d;
+
+color:white;
+
+padding:25px 0;
+
+text-align:center;
+
+margin-top:50px;
+
+}
+
+footer a{
+
+color:#ffffff;
+
+text-decoration:none;
+
+transition:.3s;
+
+}
+
+footer a:hover{
+
+color:#b7ffd0;
+
+}
+
+/* ===========================================
+        IMAGE HOVER EFFECT
+=========================================== */
+
+img{
+
+transition:.5s;
+
+}
+
+img:hover{
+
+transform:scale(1.02);
+
+}
+
+/* ===========================================
+        END OF FILE
+=========================================== */
+/* ===========================================
+        CROP PREDICTION PAGE
+=========================================== */
+
+.predict-card{
+
+    border-radius:25px;
+
+    overflow:hidden;
+
+}
+
+.predict-card .card-header{
+
+    background:linear-gradient(135deg,#198754,#28a745);
+
+    color:white;
+
+    border:none;
+
+}
+
+.predict-card .card-header h1{
+
+    font-weight:700;
+
+}
+
+.predict-card .card-body{
+
+    background:white;
+
+}
+
+.predict-card .form-label{
+
+    color:#198754;
+
+    font-weight:600;
+
+}
+
+.predict-card .form-control{
+
+    border-radius:12px;
+
+    border:2px solid #dfeee3;
+
+    padding:14px;
+
+    transition:.3s;
+
+}
+
+.predict-card .form-control:focus{
+
+    border-color:#198754;
+
+    box-shadow:0 0 10px rgba(25,135,84,.25);
+
+}
+
+.predict-card button{
+
+    border-radius:50px;
+
+    padding:14px 40px;
+
+    font-size:18px;
+
+    font-weight:600;
+
+}
+
+.predict-card button:hover{
+
+    transform:translateY(-3px);
+
+}
+
+.predict-feature{
+
+    text-align:center;
+
+    padding:20px;
+
+}
+
+.predict-feature i{
+
+    font-size:40px;
+
+    color:#198754;
+
+}
+
+.predict-feature h5{
+
+    margin-top:15px;
+
+    color:#198754;
+
+    font-weight:700;
+
+}
+
+.predict-feature p{
+
+    color:#666;
+
+    font-size:15px;
+
+}
+
+@media(max-width:768px){
+
+.predict-card .card-body{
+
+padding:25px;
+
+}
+
+.predict-card button{
+
+width:100%;
+
+}
+
+}
+/* ===========================================
+            RESULT PAGE
+=========================================== */
+
+.result-card{
+
+    border-radius:25px;
+
+    overflow:hidden;
+
+}
+
+.result-card .card-header{
+
+    background:linear-gradient(135deg,#198754,#28a745);
+
+    padding:40px;
+
+}
+
+.result-card .card-header h1{
+
+    font-size:40px;
+
+    margin-bottom:10px;
+
+}
+
+.result-card .card-body{
+
+    background:#ffffff;
+
+}
+
+.info-card{
+
+    background:#f8fff9;
+
+    border-left:6px solid #198754;
+
+    border-radius:15px;
+
+    padding:25px;
+
+    height:100%;
+
+    box-shadow:0 8px 20px rgba(0,0,0,.08);
+
+    transition:.3s;
+
+}
+
+.info-card:hover{
+
+    transform:translateY(-5px);
+
+    box-shadow:0 15px 35px rgba(0,0,0,.15);
+
+}
+
+.info-card h4{
+
+    color:#198754;
+
+    font-weight:700;
+
+    margin-bottom:12px;
+
+}
+
+.info-card p{
+
+    color:#555;
+
+    font-size:18px;
+
+    margin:0;
+
+}
+
+.tip-box{
+
+    background:linear-gradient(135deg,#198754,#28a745);
+
+    color:white;
+
+    padding:35px;
+
+    border-radius:20px;
+
+    box-shadow:0 15px 35px rgba(25,135,84,.30);
+
+}
+
+.tip-box h3{
+
+    font-weight:700;
+
+    margin-bottom:15px;
+
+}
+
+.tip-box p{
+
+    font-size:18px;
+
+    line-height:1.8;
+
+    margin:0;
+
+}
+
+.result-card .badge{
+
+    padding:12px 22px;
+
+    border-radius:30px;
+
+}
+
+.result-card .display-3{
+
+    font-size:65px;
+
+}
+
+.result-card .btn{
+
+    min-width:220px;
+
+    margin:10px;
+
+}
+
+@media(max-width:768px){
+
+.result-card .display-3{
+
+font-size:42px;
+
+}
+
+.result-card .btn{
+
+width:100%;
+
+}
+
+.result-card .card-header h1{
+
+font-size:30px;
+
+}
+
+.tip-box{
+
+padding:25px;
+
+}
+
+}
+/* ===========================================
+            WEATHER PAGE
+=========================================== */
+
+.weather-card{
+
+    background:#f8fff9;
+
+    border-left:6px solid #198754;
+
+    border-radius:18px;
+
+    padding:25px;
+
+    text-align:center;
+
+    box-shadow:0 10px 25px rgba(0,0,0,.08);
+
+    transition:.35s;
+
+    height:100%;
+
+}
+
+.weather-card:hover{
+
+    transform:translateY(-8px);
+
+    box-shadow:0 18px 40px rgba(0,0,0,.15);
+
+}
+
+.weather-card h5{
+
+    color:#198754;
+
+    font-weight:700;
+
+    margin-bottom:15px;
+
+}
+
+.weather-card h3{
+
+    color:#333;
+
+    font-size:30px;
+
+    font-weight:700;
+
+}
+
+.card-header{
+
+    border-radius:25px 25px 0 0 !important;
+
+}
+
+.input-group .form-control{
+
+    border-radius:50px 0 0 50px;
+
+    border:2px solid #198754;
+
+    padding:14px;
+
+}
+
+.input-group .btn{
+
+    border-radius:0 50px 50px 0;
+
+    padding:14px 28px;
+
+}
+
+.input-group .form-control:focus{
+
+    box-shadow:none;
+
+    border-color:#198754;
+
+}
+
+@media(max-width:768px){
+
+.input-group{
+
+display:block;
+
+}
+
+.input-group .form-control{
+
+border-radius:15px;
+
+margin-bottom:15px;
+
+}
+
+.input-group .btn{
+
+border-radius:15px;
+
+width:100%;
+
+}
+
+.weather-card{
+
+margin-bottom:20px;
+
+}
+
+}
+/* ===========================================
+       PREDICTION RESULT PAGE
+=========================================== */
+
+.result-section{
+
+    padding:80px 20px;
+
+    background:
+    linear-gradient(
+        135deg,
+        #f5fff8,
+        #e9fff0,
+        #f8fffa
+    );
+
+    min-height:80vh;
+
+}
+
+
+/* Result Header */
+
+.result-header{
+
+    margin-bottom:40px;
+
+}
+
+.success-icon{
+
+    width:75px;
+
+    height:75px;
+
+    margin:0 auto 20px;
+
+    border-radius:50%;
+
+    display:flex;
+
+    align-items:center;
+
+    justify-content:center;
+
+    font-size:38px;
+
+    background:#dff8e8;
+
+    box-shadow:0 10px 25px rgba(25,135,84,.15);
+
+}
+
+.result-header h1{
+
+    font-size:42px;
+
+    font-weight:800;
+
+    color:#198754;
+
+    margin-bottom:10px;
+
+}
+
+.result-header p{
+
+    color:#666;
+
+    font-size:17px;
+
+}
+
+
+/* Main Card */
+
+.result-main-card{
+
+    background:#ffffff;
+
+    border-radius:30px;
+
+    padding:50px;
+
+    box-shadow:
+    0 20px 60px rgba(0,0,0,.10);
+
+}
+
+
+/* Crop Result */
+
+.crop-result{
+
+    padding:35px;
+
+    border-radius:25px;
+
+    background:
+    linear-gradient(
+        135deg,
+        #ecfff3,
+        #f7fff9
+    );
+
+    border:2px solid #d8f4e2;
+
+}
+
+.result-label{
+
+    display:block;
+
+    color:#666;
+
+    font-size:17px;
+
+    font-weight:600;
+
+    margin-bottom:10px;
+
+}
+
+.crop-result h2{
+
+    font-size:52px;
+
+    font-weight:800;
+
+    color:#198754;
+
+    text-transform:capitalize;
+
+    margin:10px 0 15px;
+
+}
+
+.ai-badge{
+
+    display:inline-block;
+
+    background:#198754;
+
+    color:#ffffff;
+
+    padding:8px 18px;
+
+    border-radius:30px;
+
+    font-size:14px;
+
+    font-weight:600;
+
+}
+
+
+/* Information Cards */
+
+.result-info-card{
+
+    display:flex;
+
+    align-items:center;
+
+    gap:20px;
+
+    height:100%;
+
+    padding:25px;
+
+    border-radius:20px;
+
+    background:#f9fffb;
+
+    border-left:5px solid #198754;
+
+    box-shadow:0 8px 25px rgba(0,0,0,.06);
+
+    transition:.3s;
+
+}
+
+.result-info-card:hover{
+
+    transform:translateY(-6px);
+
+    box-shadow:0 15px 35px rgba(25,135,84,.12);
+
+}
+
+.result-icon{
+
+    min-width:60px;
+
+    height:60px;
+
+    border-radius:18px;
+
+    display:flex;
+
+    align-items:center;
+
+    justify-content:center;
+
+    font-size:30px;
+
+    background:#e8fff0;
+
+}
+
+.result-info-card h4{
+
+    margin:0 0 8px;
+
+    color:#198754;
+
+    font-size:19px;
+
+    font-weight:700;
+
+}
+
+.result-info-card p{
+
+    margin:0;
+
+    color:#333;
+
+    font-size:17px;
+
+    font-weight:600;
+
+    line-height:1.6;
+
+}
+
+
+/* Farming Tip */
+
+.farming-tip{
+
+    display:flex;
+
+    gap:20px;
+
+    align-items:flex-start;
+
+    margin-top:40px;
+
+    padding:30px;
+
+    border-radius:22px;
+
+    background:
+    linear-gradient(
+        135deg,
+        #198754,
+        #28a745
+    );
+
+    color:white;
+
+    box-shadow:0 15px 35px rgba(25,135,84,.25);
+
+}
+
+.tip-icon{
+
+    font-size:40px;
+
+}
+
+.farming-tip h3{
+
+    font-weight:800;
+
+    margin-bottom:10px;
+
+}
+
+.farming-tip p{
+
+    margin:0;
+
+    font-size:17px;
+
+    line-height:1.7;
+
+}
+
+
+/* Buttons */
+
+.result-actions{
+
+    margin-top:40px;
+
+    display:flex;
+
+    justify-content:center;
+
+    gap:15px;
+
+    flex-wrap:wrap;
+
+}
+
+.result-actions .btn{
+
+    min-width:210px;
+
+}
+
+
+/* Mobile */
+
+@media(max-width:768px){
+
+    .result-section{
+
+        padding:50px 15px;
+
+    }
+
+    .result-main-card{
+
+        padding:25px 18px;
+
+        border-radius:20px;
+
+    }
+
+    .result-header h1{
+
+        font-size:32px;
+
+    }
+
+    .crop-result h2{
+
+        font-size:38px;
+
+    }
+
+    .result-info-card{
+
+        padding:20px;
+
+    }
+
+    .farming-tip{
+
+        flex-direction:column;
+
+        text-align:center;
+
+        align-items:center;
+
+    }
+
+    .result-actions{
+
+        flex-direction:column;
+
+    }
+
+    .result-actions .btn{
+
+        width:100%;
+
+    }
+
+}
+/* =========================================================
+   WEATHER DASHBOARD
+========================================================= */
+
+.weather-card {
+    background: #ffffff;
+    border-radius: 20px;
+    padding: 30px 20px;
+    height: 100%;
+    box-shadow: 0 10px 30px rgba(0,0,0,0.08);
+    transition: 0.4s ease;
+    border: 1px solid #e8f5e9;
+}
+
+.weather-card:hover {
+    transform: translateY(-10px);
+    box-shadow: 0 18px 40px rgba(25,135,84,0.18);
+}
+
+.weather-icon {
+    font-size: 50px;
+    margin-bottom: 15px;
+}
+
+.weather-card h5 {
+    color: #555;
+    font-weight: 600;
+    margin-bottom: 10px;
+}
+
+
+/* =========================================================
+   7 DAY FORECAST
+========================================================= */
+
+.forecast-card {
+    background: linear-gradient(
+        135deg,
+        #ffffff,
+        #f3fff6
+    );
+
+    border-radius: 20px;
+
+    padding: 25px;
+
+    height: 100%;
+
+    text-align: center;
+
+    border: 1px solid #dcefe1;
+
+    box-shadow: 0 8px 25px rgba(0,0,0,0.07);
+
+    transition: 0.4s ease;
+}
+
+.forecast-card:hover {
+    transform: translateY(-8px) scale(1.02);
+
+    box-shadow: 0 15px 35px rgba(25,135,84,0.18);
+}
+
+.forecast-card h5 {
+    margin-bottom: 15px;
+}
+
+.forecast-icon {
+    font-size: 55px;
+
+    margin: 15px 0;
+
+    animation: weatherFloat 3s ease-in-out infinite;
+}
+
+@keyframes weatherFloat {
+
+    0% {
+        transform: translateY(0);
+    }
+
+    50% {
+        transform: translateY(-7px);
+    }
+
+    100% {
+        transform: translateY(0);
+    }
+
+}
+
+
+/* =========================================================
+   TEMPERATURE
+========================================================= */
+
+.temperature-range {
+
+    display: flex;
+
+    justify-content: center;
+
+    gap: 25px;
+
+    margin-top: 15px;
+
+    font-size: 17px;
+}
+
+
+/* =========================================================
+   WEATHER HEADER
+========================================================= */
+
+.weather-card h2,
+.forecast-card h2 {
+    font-weight: 800;
+}
+
+
+/* =========================================================
+   WEATHER RESPONSIVE DESIGN
+========================================================= */
+
+@media (max-width: 768px) {
+
+    .weather-card {
+        padding: 25px 15px;
+    }
+
+    .forecast-card {
+        padding: 20px;
+    }
+
+    .forecast-icon {
+        font-size: 45px;
+    }
+
+    .temperature-range {
+        gap: 15px;
+        font-size: 15px;
+    }
+
+}
+
+@media (max-width: 576px) {
+
+    .temperature-range {
+        flex-direction: column;
+        gap: 5px;
+    }
+
+}
+/* ============================= */
+/* HERO FARMER IMAGE */
+/* ============================= */
+
+.hero-image {
+    width: 100%;
+    max-width: 520px;
+    height: auto;
+    display: block;
+    margin: 0 auto;
+    object-fit: contain;
+}

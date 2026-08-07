@@ -1,0 +1,738 @@
+{% extends "base.html" %}
+
+{% block title %}
+AgriVision AI
+{% endblock %}
+
+{% block content %}
+
+<!-- ================= HERO SECTION ================= -->
+
+<section class="hero-section">
+
+    <div class="container">
+
+        <div class="row align-items-center">
+
+            <!-- LEFT CONTENT -->
+
+            <div class="col-lg-6">
+
+                <span class="badge bg-success fs-6 mb-3">
+                    🌾 AI Powered Smart Farming
+                </span>
+
+                <h1 class="display-3 fw-bold mt-3">
+
+                    Welcome to
+
+                    <span class="text-success">
+                        AgriVision AI
+                    </span>
+
+                </h1>
+
+                <p class="lead mt-4">
+
+                    Empowering Farmers with Artificial Intelligence to make
+                    smarter agricultural decisions through Machine Learning,
+                    Live Weather Updates and Maharashtra Crop Intelligence.
+
+                </p>
+
+                <div class="mt-4">
+
+                    <a href="/predict-page"
+                       class="btn btn-success btn-lg px-4 me-3">
+
+                        🚀 Predict Crop
+
+                    </a>
+
+                    <a href="/maharashtra-crops"
+                       class="btn btn-outline-success btn-lg px-4">
+
+                        🌾 Explore Crops
+
+                    </a>
+
+                </div>
+
+                <div class="row mt-5">
+
+                    <div class="col-4">
+
+                        <h2 class="fw-bold text-success">
+                            30+
+                        </h2>
+
+                        <p class="text-muted">
+                            Maharashtra Crops
+                        </p>
+
+                    </div>
+
+                    <div class="col-4">
+
+                        <h2 class="fw-bold text-success">
+                            AI
+                        </h2>
+
+                        <p class="text-muted">
+                            Crop Prediction
+                        </p>
+
+                    </div>
+
+                    <div class="col-4">
+
+                        <h2 class="fw-bold text-success">
+                            24×7
+                        </h2>
+
+                        <p class="text-muted">
+                            Weather Updates
+                        </p>
+
+                    </div>
+
+                </div>
+
+            </div>
+
+            <!-- RIGHT IMAGE -->
+
+            <div class="col-lg-6 text-center">
+
+                <img src="{{ url_for('static', filename='images/farmer.png') }}"
+                     alt="Farmer"
+                     class="img-fluid hero-image">
+
+            </div>
+
+        </div>
+
+    </div>
+
+</section>
+
+
+<!-- ================= SERVICES ================= -->
+
+<section class="services py-5 bg-light">
+
+<div class="container">
+
+<h2 class="text-center fw-bold text-success mb-5">
+    🌟 Our Smart Services
+</h2>
+
+<div class="row g-4">
+
+
+<!-- Crop Prediction -->
+
+<div class="col-lg-4 col-md-6">
+
+<a href="/predict-page"
+class="text-decoration-none">
+
+<div class="card service-card shadow border-0 h-100">
+
+<div class="card-body text-center">
+
+<div class="display-3">
+    🌾
+</div>
+
+<h4 class="mt-3">
+    Crop Prediction
+</h4>
+
+<p class="text-muted">
+
+Predict the most suitable crop using Machine Learning based on soil nutrients and weather.
+
+</p>
+
+</div>
+
+</div>
+
+</a>
+
+</div>
+
+
+<!-- Live Weather -->
+
+<div class="col-lg-4 col-md-6">
+
+<a href="/weather"
+class="text-decoration-none">
+
+<div class="card service-card shadow border-0 h-100">
+
+<div class="card-body text-center">
+
+<div class="display-3">
+    🌦️
+</div>
+
+<h4 class="mt-3">
+    Live Weather
+</h4>
+
+<p class="text-muted">
+
+View real-time weather information before planning farming activities.
+
+</p>
+
+</div>
+
+</div>
+
+</a>
+
+</div>
+
+
+<!-- Maharashtra Crops -->
+
+<div class="col-lg-4 col-md-6">
+
+<a href="/maharashtra-crops"
+class="text-decoration-none">
+
+<div class="card service-card shadow border-0 h-100">
+
+<div class="card-body text-center">
+
+<div class="display-3">
+    🌾
+</div>
+
+<h4 class="mt-3">
+    Maharashtra Crop Guide
+</h4>
+
+<p class="text-muted">
+
+Explore detailed information about major crops grown across Maharashtra.
+
+</p>
+
+</div>
+
+</div>
+
+</a>
+
+</div>
+
+
+<!-- Fertilizer Guide -->
+
+<div class="col-lg-4 col-md-6">
+
+<a href="/predict-page"
+class="text-decoration-none">
+
+<div class="card service-card shadow border-0 h-100">
+
+<div class="card-body text-center">
+
+<div class="display-3">
+    🧪
+</div>
+
+<h4 class="mt-3">
+    Fertilizer Guide
+</h4>
+
+<p class="text-muted">
+
+Receive the best fertilizer recommendation after predicting your crop.
+
+</p>
+
+</div>
+
+</div>
+
+</a>
+
+</div>
+
+
+<!-- Disease Detection -->
+
+<div class="col-lg-4 col-md-6">
+
+<a href="/disease"
+class="text-decoration-none">
+
+<div class="card service-card shadow border-0 h-100">
+
+<div class="card-body text-center">
+
+<div class="display-3">
+    📷
+</div>
+
+<h4 class="mt-3">
+    Disease Detection
+</h4>
+
+<span class="badge bg-success text-white mb-3">
+    🤖 AI Disease Detection
+</span>
+
+<p class="text-muted">
+
+Upload crop leaf images and identify plant diseases using AI.
+
+</p>
+
+</div>
+
+</div>
+
+</a>
+
+</div>
+
+
+<!-- Prediction History -->
+
+<div class="col-lg-4 col-md-6">
+
+<a href="/history"
+class="text-decoration-none">
+
+<div class="card service-card shadow border-0 h-100">
+
+<div class="card-body text-center">
+
+<div class="display-3">
+    📊
+</div>
+
+<h4 class="mt-3">
+    Prediction History
+</h4>
+
+<p class="text-muted">
+
+View all your previous crop predictions and reports anytime.
+
+</p>
+
+</div>
+
+</div>
+
+</a>
+
+</div>
+
+
+</div>
+
+</div>
+
+</section>
+
+
+<!-- ================= FEATURED MAHARASHTRA SECTION ================= -->
+
+<section class="feature-section">
+
+<div class="container">
+
+<div class="row align-items-center">
+
+<!-- Left Side -->
+
+<div class="col-lg-6">
+
+<h2 class="display-5 fw-bold text-success">
+    🌾 Maharashtra Crop Guide
+</h2>
+
+<p class="lead mt-4">
+
+AgriVision AI provides detailed information about the major crops grown
+across Maharashtra. Learn about seasons, fertilizers, water
+requirements, soil type and farming practices.
+
+</p>
+
+<div class="row mt-4">
+
+<div class="col-md-6">
+
+<ul class="list-unstyled">
+
+<li class="mb-3">
+    ✅ Best Season
+</li>
+
+<li class="mb-3">
+    ✅ Fertilizer Guide
+</li>
+
+<li class="mb-3">
+    ✅ Water Requirement
+</li>
+
+</ul>
+
+</div>
+
+<div class="col-md-6">
+
+<ul class="list-unstyled">
+
+<li class="mb-3">
+    ✅ Soil Type
+</li>
+
+<li class="mb-3">
+    ✅ Farming Tips
+</li>
+
+<li class="mb-3">
+    ✅ District Information
+</li>
+
+</ul>
+
+</div>
+
+</div>
+
+<a href="/maharashtra-crops"
+class="btn btn-success btn-lg mt-4">
+
+🌾 Explore Maharashtra Crops →
+
+</a>
+
+</div>
+
+
+<!-- Right Side -->
+
+<div class="col-lg-6 text-center">
+
+<img src="{{ url_for('static', filename='images/maharashtra_crops.png') }}"
+     alt="Maharashtra Crops"
+     class="img-fluid crop-guide-image rounded-4 shadow-lg">
+
+</div>
+
+</div>
+
+</div>
+
+</section>
+
+
+<!-- ================= WHY CHOOSE US ================= -->
+
+<section class="py-5 bg-light">
+
+<div class="container">
+
+<h2 class="text-center fw-bold text-success mb-5">
+    🚀 Why Choose AgriVision AI?
+</h2>
+
+<div class="row">
+
+
+<!-- Card 1 -->
+
+<div class="col-lg-3 col-md-6 mb-4">
+
+<div class="why-card">
+
+<div class="display-4">
+    🤖
+</div>
+
+<h4>
+    AI Powered
+</h4>
+
+<p>
+
+Advanced Machine Learning algorithms provide intelligent crop recommendations based on soil nutrients and weather conditions.
+
+</p>
+
+</div>
+
+</div>
+
+
+<!-- Card 2 -->
+
+<div class="col-lg-3 col-md-6 mb-4">
+
+<div class="why-card">
+
+<div class="display-4">
+    🌦️
+</div>
+
+<h4>
+    Live Weather
+</h4>
+
+<p>
+
+Get real-time weather information before planning irrigation, sowing and harvesting.
+
+</p>
+
+</div>
+
+</div>
+
+
+<!-- Card 3 -->
+
+<div class="col-lg-3 col-md-6 mb-4">
+
+<div class="why-card">
+
+<div class="display-4">
+    📄
+</div>
+
+<h4>
+    PDF Reports
+</h4>
+
+<p>
+
+Download professional crop prediction reports with fertilizer, season and farming recommendations.
+
+</p>
+
+</div>
+
+</div>
+
+
+<!-- Card 4 -->
+
+<div class="col-lg-3 col-md-6 mb-4">
+
+<div class="why-card">
+
+<div class="display-4">
+    🌾
+</div>
+
+<h4>
+    30+ Crops
+</h4>
+
+<p>
+
+Explore detailed information about Maharashtra's major crops including farming tips and district-wise cultivation.
+
+</p>
+
+</div>
+
+</div>
+
+
+</div>
+
+</div>
+
+</section>
+
+
+<!-- ================= FARMING TIP ================= -->
+
+<section class="py-5">
+
+<div class="container">
+
+<div class="tip-card text-center">
+
+<h2>
+    💡 Farming Tip of the Day
+</h2>
+
+<p class="mt-4">
+    {{ tip }}
+</p>
+
+<small>
+    Refresh the page to discover another useful farming tip.
+</small>
+
+</div>
+
+</div>
+
+</section>
+
+
+<!-- ================= FINAL CALL TO ACTION ================= -->
+
+<section class="py-5 bg-success text-white">
+
+<div class="container">
+
+<div class="row align-items-center">
+
+<div class="col-lg-8">
+
+<h2 class="fw-bold display-5">
+    🌱 Ready to Start Smart Farming?
+</h2>
+
+<p class="lead mt-3">
+
+AgriVision AI helps farmers make better decisions using Artificial
+Intelligence, Live Weather Information, Crop Prediction,
+Maharashtra Crop Guide and Smart Farming Recommendations.
+
+Start your journey towards smarter farming today.
+
+</p>
+
+</div>
+
+<div class="col-lg-4 text-center">
+
+<a href="/predict-page"
+class="btn btn-light btn-lg px-5 py-3 fw-bold">
+
+🚀 Predict Now
+
+</a>
+
+</div>
+
+</div>
+
+</div>
+
+</section>
+
+
+<!-- ================= PROJECT HIGHLIGHTS ================= -->
+
+<section class="py-5">
+
+<div class="container">
+
+<h2 class="text-center fw-bold text-success mb-5">
+    📈 AgriVision AI Highlights
+</h2>
+
+<div class="row text-center">
+
+<div class="col-md-3 mb-4">
+
+<h1 class="text-success fw-bold">
+    30+
+</h1>
+
+<p>
+    Maharashtra Crops
+</p>
+
+</div>
+
+<div class="col-md-3 mb-4">
+
+<h1 class="text-success fw-bold">
+    24×7
+</h1>
+
+<p>
+    Weather Updates
+</p>
+
+</div>
+
+<div class="col-md-3 mb-4">
+
+<h1 class="text-success fw-bold">
+    AI
+</h1>
+
+<p>
+    Crop Prediction
+</p>
+
+</div>
+
+<div class="col-md-3 mb-4">
+
+<h1 class="text-success fw-bold">
+    100%
+</h1>
+
+<p>
+    User Friendly Interface
+</p>
+
+</div>
+
+</div>
+
+</div>
+
+</section>
+
+
+<!-- ================= FOOTER MESSAGE ================= -->
+
+<section class="pb-5">
+
+<div class="container">
+
+<div class="card border-0 shadow-lg rounded-4">
+
+<div class="card-body text-center p-5">
+
+<h3 class="text-success fw-bold">
+    ❤️ Thank You for Visiting AgriVision AI
+</h3>
+
+<p class="lead mt-3">
+
+This AI-powered agriculture platform has been developed as a
+Diploma Final Year Project to assist farmers with intelligent crop
+recommendations, weather information and Maharashtra crop guidance.
+
+</p>
+
+<a href="/about"
+class="btn btn-success btn-lg mt-3">
+
+Learn More About Us
+
+</a>
+
+</div>
+
+</div>
+
+</div>
+
+</section>
+
+{% endblock %}

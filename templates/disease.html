@@ -1,0 +1,347 @@
+{% extends "base.html" %}
+
+{% block title %}
+Disease Detection | AgriVision AI
+{% endblock %}
+
+{% block content %}
+
+<section class="disease-section py-5">
+
+    <div class="container">
+
+        <!-- ================= HEADER ================= -->
+
+        <div class="text-center mb-5">
+
+            <span class="badge bg-success fs-6 mb-3">
+                🤖 AI Powered Agriculture
+            </span>
+
+            <h1 class="display-4 fw-bold text-success">
+                📷 Crop Disease Detection
+            </h1>
+
+            <p class="lead text-muted mt-3">
+                Upload a crop leaf image and let AI analyze it.
+            </p>
+
+        </div>
+
+
+        <!-- ================= ERROR ================= -->
+
+        {% if error %}
+
+        <div class="alert alert-danger text-center">
+
+            ⚠️ {{ error }}
+
+        </div>
+
+        {% endif %}
+
+
+        <!-- ================= UPLOAD CARD ================= -->
+
+        <div class="row justify-content-center">
+
+            <div class="col-lg-7">
+
+                <div class="card disease-upload-card border-0 shadow-lg">
+
+                    <div class="card-body p-5 text-center">
+
+                        <div class="disease-icon mb-4">
+                            🌿
+                        </div>
+
+                        <h2 class="fw-bold">
+                            Upload Crop Leaf Image
+                        </h2>
+
+                        <p class="text-muted mt-3">
+                            Select a clear image of a crop leaf
+                            for AI-powered disease detection.
+                        </p>
+
+
+                        <!-- ================= FORM ================= -->
+
+                        <form
+                            action="/disease"
+                            method="POST"
+                            enctype="multipart/form-data"
+                            id="diseaseForm"
+                        >
+
+                            <div class="upload-box mt-4">
+
+                                <div class="upload-icon">
+                                    📷
+                                </div>
+
+                                <h5 class="fw-bold mt-3">
+                                    Choose an Image
+                                </h5>
+
+                                <p class="text-muted">
+                                    JPG, JPEG or PNG
+                                </p>
+
+
+                                <!-- IMAGE INPUT -->
+
+                                <input
+                                    type="file"
+                                    name="leaf_image"
+                                    id="leafImage"
+                                    class="form-control mt-3"
+                                    accept=".jpg,.jpeg,.png"
+                                    required
+                                >
+
+                            </div>
+
+
+                            <!-- ================= FILE NAME ================= -->
+
+                            <p
+                                id="fileName"
+                                class="text-success fw-semibold mt-3"
+                            ></p>
+
+
+                            <!-- ================= ANALYZE BUTTON ================= -->
+
+                            <button
+                                type="submit"
+                                id="analyzeButton"
+                                class="btn btn-success btn-lg px-5 mt-3"
+                                disabled
+                            >
+
+                                🔍 Analyze Image
+
+                            </button>
+
+
+                            <!-- ================= LOADING ================= -->
+
+                            <div
+                                id="loadingMessage"
+                                class="alert alert-info mt-4 d-none"
+                            >
+
+                                🤖 AI is analyzing your leaf image...
+
+                                <br>
+
+                                Please wait.
+
+                            </div>
+
+                        </form>
+
+                    </div>
+
+                </div>
+
+            </div>
+
+        </div>
+
+
+        <!-- ================= HOW IT WORKS ================= -->
+
+        <div class="row mt-5 g-4">
+
+            <div class="col-md-4">
+
+                <div class="card border-0 shadow-sm h-100 text-center">
+
+                    <div class="card-body p-4">
+
+                        <div class="display-4">
+                            📤
+                        </div>
+
+                        <h4 class="text-success mt-3">
+                            1. Upload
+                        </h4>
+
+                        <p class="text-muted">
+                            Upload a clear photograph of
+                            the crop leaf.
+                        </p>
+
+                    </div>
+
+                </div>
+
+            </div>
+
+
+            <div class="col-md-4">
+
+                <div class="card border-0 shadow-sm h-100 text-center">
+
+                    <div class="card-body p-4">
+
+                        <div class="display-4">
+                            🤖
+                        </div>
+
+                        <h4 class="text-success mt-3">
+                            2. AI Analysis
+                        </h4>
+
+                        <p class="text-muted">
+                            The trained AI model analyzes
+                            the uploaded leaf image.
+                        </p>
+
+                    </div>
+
+                </div>
+
+            </div>
+
+
+            <div class="col-md-4">
+
+                <div class="card border-0 shadow-sm h-100 text-center">
+
+                    <div class="card-body p-4">
+
+                        <div class="display-4">
+                            🌱
+                        </div>
+
+                        <h4 class="text-success mt-3">
+                            3. Result
+                        </h4>
+
+                        <p class="text-muted">
+                            Get the detected disease and
+                            recommended farming guidance.
+                        </p>
+
+                    </div>
+
+                </div>
+
+            </div>
+
+        </div>
+
+
+        <!-- ================= INFORMATION ================= -->
+
+        <div class="row justify-content-center mt-5">
+
+            <div class="col-lg-9">
+
+                <div class="card border-0 shadow-sm rounded-4">
+
+                    <div class="card-body p-4 text-center">
+
+                        <h3 class="fw-bold text-success">
+                            🌾 Smart Crop Health Monitoring
+                        </h3>
+
+                        <p class="text-muted mb-0 mt-3">
+
+                            AgriVision AI helps farmers identify
+                            common tomato leaf diseases and make
+                            better crop-care decisions using
+                            Artificial Intelligence.
+
+                        </p>
+
+                    </div>
+
+                </div>
+
+            </div>
+
+        </div>
+
+    </div>
+
+</section>
+
+
+<!-- ================= JAVASCRIPT ================= -->
+
+<script>
+
+const leafImage = document.getElementById("leafImage");
+
+const analyzeButton =
+    document.getElementById("analyzeButton");
+
+const fileName =
+    document.getElementById("fileName");
+
+const diseaseForm =
+    document.getElementById("diseaseForm");
+
+const loadingMessage =
+    document.getElementById("loadingMessage");
+
+
+// ==================================================
+// WHEN IMAGE IS SELECTED
+// ==================================================
+
+leafImage.addEventListener(
+    "change",
+    function () {
+
+        if (this.files.length > 0) {
+
+            const file = this.files[0];
+
+            fileName.textContent =
+                "Selected: " + file.name;
+
+            analyzeButton.disabled = false;
+
+        }
+
+        else {
+
+            fileName.textContent = "";
+
+            analyzeButton.disabled = true;
+
+        }
+
+    }
+);
+
+
+// ==================================================
+// WHEN ANALYZE BUTTON IS CLICKED
+// ==================================================
+
+diseaseForm.addEventListener(
+    "submit",
+    function () {
+
+        analyzeButton.disabled = true;
+
+        analyzeButton.innerHTML =
+            "🤖 Analyzing...";
+
+        loadingMessage.classList.remove(
+            "d-none"
+        );
+
+    }
+);
+
+</script>
+
+{% endblock %}

@@ -1,0 +1,158 @@
+{% extends "base.html" %}
+
+{% block title %}
+Disease Detection Result | AgriVision AI
+{% endblock %}
+
+{% block content %}
+
+<section class="py-5">
+
+    <div class="container">
+
+        <!-- ================= HEADER ================= -->
+
+        <div class="text-center mb-5">
+
+            <span class="badge bg-success fs-6 mb-3">
+                🤖 AI Analysis Complete
+            </span>
+
+            <h1 class="display-5 fw-bold text-success">
+                🌿 Leaf Disease Detection Result
+            </h1>
+
+            <p class="lead text-muted">
+                Our AI model has analyzed your uploaded crop leaf.
+            </p>
+
+        </div>
+
+
+        <!-- ================= RESULT CARD ================= -->
+
+        <div class="row justify-content-center">
+
+            <div class="col-lg-8">
+
+                <div class="card border-0 shadow-lg rounded-4">
+
+                    <div class="card-body p-5 text-center">
+
+
+                        <!-- ================= DISEASE ICON ================= -->
+
+                        <div class="mb-4">
+
+                            <div style="font-size: 70px;">
+                                🌱
+                            </div>
+
+                        </div>
+
+
+                        <!-- ================= PREDICTION ================= -->
+
+                        <h2 class="fw-bold text-success mb-3">
+
+                            {{ prediction }}
+
+                        </h2>
+
+
+                        <!-- ================= RECOMMENDATION ================= -->
+
+                        {% if recommendation %}
+
+                        <div class="alert alert-success mt-4">
+
+                            <h4 class="fw-bold">
+                                🌾 Recommended Action
+                            </h4>
+
+                            <p class="mb-0 mt-2">
+                                {{ recommendation }}
+                            </p>
+
+                        </div>
+
+                        {% endif %}
+
+
+                        <!-- ================= DISEASE INFORMATION ================= -->
+
+                        {% if description %}
+
+                        <div class="card bg-light border-0 mt-4">
+
+                            <div class="card-body p-4">
+
+                                <h4 class="fw-bold text-success">
+                                    📋 About This Disease
+                                </h4>
+
+                                <p class="text-muted mb-0 mt-3">
+                                    {{ description }}
+                                </p>
+
+                            </div>
+
+                        </div>
+
+                        {% endif %}
+
+
+                        <!-- ================= BUTTONS ================= -->
+
+                        <div class="mt-5">
+
+                            <a
+                                href="/disease"
+                                class="btn btn-success btn-lg px-4"
+                            >
+                                🔄 Analyze Another Image
+                            </a>
+
+                            <a
+                                href="/"
+                                class="btn btn-outline-success btn-lg px-4 ms-2"
+                            >
+                                🏠 Home
+                            </a>
+
+                        </div>
+
+                    </div>
+
+                </div>
+
+            </div>
+
+        </div>
+
+
+        <!-- ================= IMPORTANT NOTE ================= -->
+
+        <div class="row justify-content-center mt-5">
+
+            <div class="col-lg-8">
+
+                <div class="alert alert-warning text-center">
+
+                    <strong>⚠️ Important:</strong>
+
+                    AI predictions are intended for guidance.
+                    For serious crop disease problems, consult
+                    an agricultural expert.
+
+                </div>
+
+            </div>
+
+        </div>
+
+    </div>
+
+</section>
+
+{% endblock %}

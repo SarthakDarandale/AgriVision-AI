@@ -1,0 +1,798 @@
+{% extends "base.html" %}
+
+{% block title %}
+Prediction History | AgriVision AI
+{% endblock %}
+
+{% block content %}
+
+<section class="history-section">
+
+    <div class="container">
+
+        <!-- ================= HEADER ================= -->
+
+        <div class="history-header text-center">
+
+            <div class="history-icon">
+                📊
+            </div>
+
+            <h1>
+                Prediction History
+            </h1>
+
+            <p>
+                View your previous AgriVision AI crop predictions.
+            </p>
+
+        </div>
+
+
+        <!-- ================= HISTORY CARD ================= -->
+
+        <div class="history-main-card">
+
+            {% if history %}
+
+            <!-- Statistics -->
+
+            <div class="row g-3 mb-4">
+
+                <div class="col-md-4">
+
+                    <div class="history-stat">
+
+                        <span>
+                            📊
+                        </span>
+
+                        <div>
+
+                            <small>
+                                Total Predictions
+                            </small>
+
+                            <h3>
+                                {{ history|length }}
+                            </h3>
+
+                        </div>
+
+                    </div>
+
+                </div>
+
+
+                <div class="col-md-4">
+
+                    <div class="history-stat">
+
+                        <span>
+                            🌾
+                        </span>
+
+                        <div>
+
+                            <small>
+                                Latest Crop
+                            </small>
+
+                            <h3>
+                                {{ history[-1][1] }}
+                            </h3>
+
+                        </div>
+
+                    </div>
+
+                </div>
+
+
+                <div class="col-md-4">
+
+                    <div class="history-stat">
+
+                        <span>
+                            🤖
+                        </span>
+
+                        <div>
+
+                            <small>
+                                AI Predictions
+                            </small>
+
+                            <h3>
+                                Active
+                            </h3>
+
+                        </div>
+
+                    </div>
+
+                </div>
+
+            </div>
+
+
+            <!-- ================= TABLE ================= -->
+
+            <div class="table-responsive">
+
+                <table class="table history-table align-middle">
+
+                    <thead>
+
+                        <tr>
+
+                            <th>
+                                📅 Date
+                            </th>
+
+                            <th>
+                                🌾 Crop
+                            </th>
+
+                            <th>
+                                🧪 N
+                            </th>
+
+                            <th>
+                                🧪 P
+                            </th>
+
+                            <th>
+                                🧪 K
+                            </th>
+
+                            <th>
+                                🌡 Temp
+                            </th>
+
+                            <th>
+                                💧 Humidity
+                            </th>
+
+                            <th>
+                                ⚗ pH
+                            </th>
+
+                            <th>
+                                🌧 Rainfall
+                            </th>
+
+                        </tr>
+
+                    </thead>
+
+
+                    <tbody>
+
+                        {% for row in history %}
+
+                        <tr>
+
+                            <td>
+
+                                <span class="date-value">
+                                    {{ row[0] }}
+                                </span>
+
+                            </td>
+
+
+                            <td>
+
+                                <span class="crop-badge">
+                                    🌾 {{ row[1] }}
+                                </span>
+
+                            </td>
+
+
+                            <td>
+                                {{ row[2] }}
+                            </td>
+
+
+                            <td>
+                                {{ row[3] }}
+                            </td>
+
+
+                            <td>
+                                {{ row[4] }}
+                            </td>
+
+
+                            <td>
+                                {{ row[5] }} °C
+                            </td>
+
+
+                            <td>
+                                {{ row[6] }} %
+                            </td>
+
+
+                            <td>
+                                {{ row[7] }}
+                            </td>
+
+
+                            <td>
+                                {{ row[8] }} mm
+                            </td>
+
+                        </tr>
+
+                        {% endfor %}
+
+                    </tbody>
+
+                </table>
+
+            </div>
+
+
+            <!-- ================= INFORMATION ================= -->
+
+            <div class="history-info">
+
+                <div class="history-info-icon">
+                    💡
+                </div>
+
+                <div>
+
+                    <h4>
+                        About Prediction History
+                    </h4>
+
+                    <p>
+                        Your previous crop predictions are stored so you
+                        can review the soil and weather conditions used
+                        for each prediction.
+                    </p>
+
+                </div>
+
+            </div>
+
+
+            {% else %}
+
+
+            <!-- ================= EMPTY HISTORY ================= -->
+
+            <div class="empty-history text-center">
+
+                <div class="empty-icon">
+                    📂
+                </div>
+
+                <h2>
+                    No Prediction History Yet
+                </h2>
+
+                <p>
+                    You haven't made any crop predictions yet.
+                </p>
+
+                <a href="/predict-page"
+                   class="btn btn-success btn-lg px-5">
+
+                    🌾 Make Your First Prediction
+
+                </a>
+
+            </div>
+
+
+            {% endif %}
+
+
+            <!-- ================= BUTTONS ================= -->
+
+            <div class="history-actions text-center">
+
+                <a href="/predict-page"
+                   class="btn btn-success btn-lg">
+
+                    ➕ New Prediction
+
+                </a>
+
+                <a href="/"
+                   class="btn btn-outline-success btn-lg">
+
+                    🏠 Home
+
+                </a>
+
+            </div>
+
+        </div>
+
+    </div>
+
+</section>
+
+
+<!-- ================= HISTORY CSS ================= -->
+
+<style>
+
+/* ===========================================
+       HISTORY SECTION
+=========================================== */
+
+.history-section{
+
+    padding:80px 20px;
+
+    min-height:80vh;
+
+    background:
+    linear-gradient(
+        135deg,
+        #f5fff8,
+        #eafff0,
+        #f8fffa
+    );
+
+}
+
+
+/* ===========================================
+       HEADER
+=========================================== */
+
+.history-header{
+
+    margin-bottom:40px;
+
+}
+
+
+.history-icon{
+
+    width:75px;
+
+    height:75px;
+
+    margin:0 auto 20px;
+
+    border-radius:50%;
+
+    display:flex;
+
+    align-items:center;
+
+    justify-content:center;
+
+    background:#dff8e8;
+
+    font-size:38px;
+
+    box-shadow:
+    0 10px 25px rgba(25,135,84,.15);
+
+}
+
+
+.history-header h1{
+
+    color:#198754;
+
+    font-size:42px;
+
+    font-weight:800;
+
+    margin-bottom:10px;
+
+}
+
+
+.history-header p{
+
+    color:#666;
+
+    font-size:17px;
+
+}
+
+
+/* ===========================================
+       MAIN CARD
+=========================================== */
+
+.history-main-card{
+
+    background:#ffffff;
+
+    padding:40px;
+
+    border-radius:28px;
+
+    box-shadow:
+    0 20px 60px rgba(0,0,0,.09);
+
+}
+
+
+/* ===========================================
+       STATISTICS
+=========================================== */
+
+.history-stat{
+
+    display:flex;
+
+    align-items:center;
+
+    gap:18px;
+
+    padding:20px;
+
+    background:#f5fff8;
+
+    border:1px solid #d8f4e2;
+
+    border-radius:18px;
+
+}
+
+
+.history-stat > span{
+
+    width:55px;
+
+    height:55px;
+
+    display:flex;
+
+    align-items:center;
+
+    justify-content:center;
+
+    background:#e1f8e9;
+
+    border-radius:15px;
+
+    font-size:28px;
+
+}
+
+
+.history-stat small{
+
+    color:#777;
+
+    font-weight:500;
+
+}
+
+
+.history-stat h3{
+
+    color:#198754;
+
+    font-weight:800;
+
+    margin:3px 0 0;
+
+}
+
+
+/* ===========================================
+       TABLE
+=========================================== */
+
+.history-table{
+
+    margin-top:20px;
+
+    border-collapse:separate;
+
+    border-spacing:0 8px;
+
+}
+
+
+.history-table thead th{
+
+    background:#198754;
+
+    color:#ffffff;
+
+    padding:16px 12px;
+
+    border:none;
+
+    font-size:14px;
+
+    white-space:nowrap;
+
+}
+
+
+.history-table thead th:first-child{
+
+    border-radius:12px 0 0 12px;
+
+}
+
+
+.history-table thead th:last-child{
+
+    border-radius:0 12px 12px 0;
+
+}
+
+
+.history-table tbody tr{
+
+    background:#f9fffb;
+
+    transition:.3s;
+
+}
+
+
+.history-table tbody tr:hover{
+
+    background:#ecfff2;
+
+    transform:scale(1.005);
+
+}
+
+
+.history-table tbody td{
+
+    padding:15px 12px;
+
+    border-top:1px solid #edf5ef;
+
+    border-bottom:1px solid #edf5ef;
+
+    color:#333;
+
+    font-weight:500;
+
+    white-space:nowrap;
+
+}
+
+
+.history-table tbody td:first-child{
+
+    border-left:1px solid #edf5ef;
+
+    border-radius:12px 0 0 12px;
+
+}
+
+
+.history-table tbody td:last-child{
+
+    border-right:1px solid #edf5ef;
+
+    border-radius:0 12px 12px 0;
+
+}
+
+
+.date-value{
+
+    font-weight:600;
+
+    color:#555;
+
+}
+
+
+.crop-badge{
+
+    display:inline-block;
+
+    padding:8px 14px;
+
+    border-radius:30px;
+
+    background:#dff8e8;
+
+    color:#146c43;
+
+    font-weight:800;
+
+}
+
+
+/* ===========================================
+       INFORMATION BOX
+=========================================== */
+
+.history-info{
+
+    display:flex;
+
+    align-items:flex-start;
+
+    gap:18px;
+
+    margin-top:30px;
+
+    padding:25px;
+
+    border-radius:20px;
+
+    background:#ecfff2;
+
+    border-left:5px solid #198754;
+
+}
+
+
+.history-info-icon{
+
+    font-size:30px;
+
+}
+
+
+.history-info h4{
+
+    color:#198754;
+
+    font-weight:700;
+
+    margin-bottom:8px;
+
+}
+
+
+.history-info p{
+
+    color:#555;
+
+    margin:0;
+
+    line-height:1.7;
+
+}
+
+
+/* ===========================================
+       EMPTY HISTORY
+=========================================== */
+
+.empty-history{
+
+    padding:70px 20px;
+
+}
+
+
+.empty-icon{
+
+    font-size:70px;
+
+    margin-bottom:20px;
+
+}
+
+
+.empty-history h2{
+
+    color:#198754;
+
+    font-weight:800;
+
+}
+
+
+.empty-history p{
+
+    color:#666;
+
+    font-size:17px;
+
+    margin-bottom:25px;
+
+}
+
+
+/* ===========================================
+       BUTTONS
+=========================================== */
+
+.history-actions{
+
+    margin-top:35px;
+
+    display:flex;
+
+    justify-content:center;
+
+    gap:15px;
+
+    flex-wrap:wrap;
+
+}
+
+
+.history-actions .btn{
+
+    min-width:190px;
+
+}
+
+
+/* ===========================================
+       MOBILE
+=========================================== */
+
+@media(max-width:768px){
+
+    .history-section{
+
+        padding:50px 15px;
+
+    }
+
+
+    .history-main-card{
+
+        padding:20px 15px;
+
+        border-radius:20px;
+
+    }
+
+
+    .history-header h1{
+
+        font-size:32px;
+
+    }
+
+
+    .history-stat{
+
+        padding:15px;
+
+    }
+
+
+    .history-info{
+
+        flex-direction:column;
+
+        text-align:center;
+
+        align-items:center;
+
+    }
+
+
+    .history-actions{
+
+        flex-direction:column;
+
+    }
+
+
+    .history-actions .btn{
+
+        width:100%;
+
+    }
+
+}
+
+</style>
+
+{% endblock %}

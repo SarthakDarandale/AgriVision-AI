@@ -1,0 +1,709 @@
+{% extends "base.html" %}
+
+{% block title %}
+Maharashtra Crop Guide | AgriVision AI
+{% endblock %}
+
+{% block content %}
+
+<!-- ================= HERO SECTION ================= -->
+
+<section class="crop-guide-hero">
+
+    <div class="container">
+
+        <div class="text-center">
+
+            <span class="badge bg-success mb-3">
+                🌾 Maharashtra Agriculture
+            </span>
+
+            <h1 class="display-4 fw-bold text-success">
+                Maharashtra Crop Guide
+            </h1>
+
+            <p class="lead text-muted mt-3">
+                Explore major crops grown across Maharashtra with
+                useful farming information.
+            </p>
+
+        </div>
+
+    </div>
+
+</section>
+
+
+<!-- ================= STATISTICS ================= -->
+
+<section class="py-4">
+
+    <div class="container">
+
+        <div class="row justify-content-center g-4">
+
+            <!-- Major Crops -->
+
+            <div class="col-md-4">
+
+                <div class="crop-stat-card text-center">
+
+                    <div class="display-5">
+                        🌾
+                    </div>
+
+                    <h3 class="text-success fw-bold mt-2">
+                        {{ crops|length }}+
+                    </h3>
+
+                    <p class="text-muted mb-0">
+                        Major Crops
+                    </p>
+
+                </div>
+
+            </div>
+
+
+            <!-- Maharashtra -->
+
+            <div class="col-md-4">
+
+                <div class="crop-stat-card text-center">
+
+                    <div class="display-5">
+                        📍
+                    </div>
+
+                    <h3 class="text-success fw-bold mt-2">
+                        Maharashtra
+                    </h3>
+
+                    <p class="text-muted mb-0">
+                        Crop Information
+                    </p>
+
+                </div>
+
+            </div>
+
+
+            <!-- AI -->
+
+            <div class="col-md-4">
+
+                <div class="crop-stat-card text-center">
+
+                    <div class="display-5">
+                        🤖
+                    </div>
+
+                    <h3 class="text-success fw-bold mt-2">
+                        AI
+                    </h3>
+
+                    <p class="text-muted mb-0">
+                        Smart Agriculture
+                    </p>
+
+                </div>
+
+            </div>
+
+        </div>
+
+    </div>
+
+</section>
+
+
+<!-- ================= SEARCH SECTION ================= -->
+
+<section class="py-4">
+
+    <div class="container">
+
+        <div class="crop-search-card">
+
+            <div class="text-center mb-3">
+
+                <h3 class="fw-bold text-success">
+                    🔍 Find Your Crop
+                </h3>
+
+                <p class="text-muted mb-0">
+                    Search by crop name, category, season or district.
+                </p>
+
+            </div>
+
+
+            <div class="row justify-content-center">
+
+                <div class="col-lg-7">
+
+                    <div class="input-group input-group-lg">
+
+                        <span class="input-group-text bg-success text-white">
+                            🔍
+                        </span>
+
+                        <input
+                            type="text"
+                            id="searchBox"
+                            class="form-control"
+                            placeholder="Search Crop..."
+                            onkeyup="searchCrop()"
+                        >
+
+                    </div>
+
+                </div>
+
+            </div>
+
+
+            <div class="text-center mt-3">
+
+                <small class="text-muted">
+
+                    Try searching:
+
+                    <strong>Rice</strong>,
+                    <strong>Cotton</strong>,
+                    <strong>Wheat</strong>,
+                    <strong>Kharif</strong>
+
+                </small>
+
+            </div>
+
+        </div>
+
+    </div>
+
+</section>
+
+
+<!-- ================= CROP CARDS ================= -->
+
+<section class="py-5">
+
+    <div class="container">
+
+        <div class="d-flex justify-content-between align-items-center mb-4">
+
+            <div>
+
+                <h2 class="fw-bold text-success mb-1">
+                    🌱 Explore Crops
+                </h2>
+
+                <p class="text-muted mb-0">
+                    Select a crop to view detailed information.
+                </p>
+
+            </div>
+
+            <span class="badge bg-success fs-6">
+                {{ crops|length }} Crops
+            </span>
+
+        </div>
+
+
+        <div class="row g-4" id="cropContainer">
+
+            {% for key, crop in crops.items() %}
+
+            <div class="col-xl-4 col-lg-4 col-md-6 crop-card">
+
+                <div class="crop-guide-card h-100">
+
+                    <!-- CROP ICON -->
+
+                    <div class="crop-icon">
+                        🌱
+                    </div>
+
+
+                    <!-- CROP NAME -->
+
+                    <h3 class="text-success fw-bold mt-3">
+
+                        {{ crop.name }}
+
+                    </h3>
+
+
+                    <!-- CATEGORY -->
+
+                    <span class="badge bg-success mb-3">
+
+                        {{ crop.category }}
+
+                    </span>
+
+
+                    <!-- CROP INFORMATION -->
+
+                    <div class="crop-info">
+
+                        <div class="info-row">
+
+                            <span>
+                                📅 <strong>Season</strong>
+                            </span>
+
+                            <span>
+                                {{ crop.season }}
+                            </span>
+
+                        </div>
+
+
+                        <div class="info-row">
+
+                            <span>
+                                📍 <strong>Districts</strong>
+                            </span>
+
+                            <span class="district-text">
+                                {{ crop.districts }}
+                            </span>
+
+                        </div>
+
+                    </div>
+
+
+                    <!-- DETAILS BUTTON -->
+
+                    <a
+                        href="/crop/{{ key }}"
+                        class="btn btn-success w-100 mt-4">
+
+                        🌾 View Crop Details
+
+                    </a>
+
+                </div>
+
+            </div>
+
+            {% endfor %}
+
+        </div>
+
+
+        <!-- ================= NO RESULTS ================= -->
+
+        <div
+            id="noResults"
+            class="text-center py-5"
+            style="display:none;">
+
+            <div class="display-3">
+                🌱
+            </div>
+
+            <h3 class="text-success fw-bold mt-3">
+                No Crop Found
+            </h3>
+
+            <p class="text-muted">
+                Try searching with another crop name, season or district.
+            </p>
+
+        </div>
+
+    </div>
+
+</section>
+
+
+<!-- ================= SMART FARMING INFORMATION ================= -->
+
+<section class="py-5 bg-light">
+
+    <div class="container">
+
+        <div class="row align-items-center">
+
+            <!-- LEFT -->
+
+            <div class="col-lg-7">
+
+                <span class="badge bg-success mb-3">
+                    🌾 Smart Farming
+                </span>
+
+                <h2 class="display-6 fw-bold text-success">
+
+                    Know Your Crop Before You Grow
+
+                </h2>
+
+                <p class="lead text-muted mt-3">
+
+                    Explore crop-specific information to understand
+                    suitable seasons, growing regions and important
+                    agricultural requirements.
+
+                </p>
+
+
+                <div class="row mt-4">
+
+                    <div class="col-md-6">
+
+                        <p>
+                            ✅ Crop Information
+                        </p>
+
+                        <p>
+                            ✅ Best Growing Season
+                        </p>
+
+                    </div>
+
+
+                    <div class="col-md-6">
+
+                        <p>
+                            ✅ Major Districts
+                        </p>
+
+                        <p>
+                            ✅ Farming Guidance
+                        </p>
+
+                    </div>
+
+                </div>
+
+            </div>
+
+
+            <!-- RIGHT -->
+
+            <div class="col-lg-5 text-center mt-4 mt-lg-0">
+
+                <div class="crop-info-visual">
+
+                    <div class="display-1">
+                        🌾
+                    </div>
+
+                    <h3 class="fw-bold text-success mt-3">
+                        Smart Agriculture
+                    </h3>
+
+                    <p class="text-muted">
+                        Powered by AgriVision AI
+                    </p>
+
+                </div>
+
+            </div>
+
+        </div>
+
+    </div>
+
+</section>
+
+
+<!-- ================= JAVASCRIPT ================= -->
+
+<script>
+
+function searchCrop() {
+
+    let input =
+        document.getElementById("searchBox")
+        .value
+        .toLowerCase()
+        .trim();
+
+
+    let cards =
+        document.getElementsByClassName("crop-card");
+
+
+    let visibleCount = 0;
+
+
+    for (let i = 0; i < cards.length; i++) {
+
+        let text =
+            cards[i].innerText.toLowerCase();
+
+
+        if (text.includes(input)) {
+
+            cards[i].style.display = "";
+
+            visibleCount++;
+
+        }
+
+        else {
+
+            cards[i].style.display = "none";
+
+        }
+
+    }
+
+
+    let noResults =
+        document.getElementById("noResults");
+
+
+    if (visibleCount === 0) {
+
+        noResults.style.display = "block";
+
+    }
+
+    else {
+
+        noResults.style.display = "none";
+
+    }
+
+}
+
+</script>
+
+
+<!-- ================= PAGE CSS ================= -->
+
+<style>
+
+.crop-guide-hero {
+
+    padding: 70px 0 40px;
+
+    background:
+        linear-gradient(
+            135deg,
+            #ecfff2,
+            #ffffff,
+            #e8f8ed
+        );
+
+}
+
+
+.crop-stat-card {
+
+    background: #ffffff;
+
+    padding: 30px 20px;
+
+    border-radius: 20px;
+
+    box-shadow:
+        0 10px 30px rgba(0,0,0,.08);
+
+    transition: .3s;
+
+}
+
+
+.crop-stat-card:hover {
+
+    transform: translateY(-7px);
+
+    box-shadow:
+        0 15px 35px rgba(0,0,0,.12);
+
+}
+
+
+.crop-search-card {
+
+    background: #ffffff;
+
+    padding: 35px;
+
+    border-radius: 25px;
+
+    box-shadow:
+        0 10px 30px rgba(0,0,0,.08);
+
+}
+
+
+.crop-guide-card {
+
+    background: #ffffff;
+
+    padding: 30px;
+
+    border-radius: 22px;
+
+    border: 1px solid #e8f3eb;
+
+    box-shadow:
+        0 8px 25px rgba(0,0,0,.07);
+
+    transition: .35s;
+
+    position: relative;
+
+    overflow: hidden;
+
+}
+
+
+.crop-guide-card::before {
+
+    content: "";
+
+    position: absolute;
+
+    top: 0;
+
+    left: 0;
+
+    width: 100%;
+
+    height: 5px;
+
+    background: #198754;
+
+}
+
+
+.crop-guide-card:hover {
+
+    transform: translateY(-10px);
+
+    box-shadow:
+        0 18px 40px rgba(0,0,0,.13);
+
+}
+
+
+.crop-icon {
+
+    width: 70px;
+
+    height: 70px;
+
+    display: flex;
+
+    align-items: center;
+
+    justify-content: center;
+
+    background: #ecfff2;
+
+    border-radius: 50%;
+
+    font-size: 38px;
+
+}
+
+
+.crop-info {
+
+    margin-top: 20px;
+
+}
+
+
+.info-row {
+
+    display: flex;
+
+    justify-content: space-between;
+
+    gap: 15px;
+
+    padding: 12px 0;
+
+    border-bottom: 1px solid #eeeeee;
+
+    color: #555;
+
+}
+
+
+.info-row:last-child {
+
+    border-bottom: none;
+
+}
+
+
+.district-text {
+
+    text-align: right;
+
+    max-width: 60%;
+
+}
+
+
+.crop-info-visual {
+
+    background: #ffffff;
+
+    padding: 50px 30px;
+
+    border-radius: 25px;
+
+    box-shadow:
+        0 15px 35px rgba(0,0,0,.08);
+
+}
+
+
+@media (max-width: 768px) {
+
+    .crop-guide-hero {
+
+        padding: 50px 15px 30px;
+
+    }
+
+
+    .crop-search-card {
+
+        padding: 25px 18px;
+
+    }
+
+
+    .crop-guide-card {
+
+        padding: 25px 20px;
+
+    }
+
+
+    .info-row {
+
+        flex-direction: column;
+
+    }
+
+
+    .district-text {
+
+        text-align: left;
+
+        max-width: 100%;
+
+    }
+
+}
+
+</style>
+
+
+{% endblock %}

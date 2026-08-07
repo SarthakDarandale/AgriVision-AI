@@ -1,0 +1,789 @@
+{% extends "base.html" %}
+
+{% block title %}
+AI Crop Prediction | AgriVision AI
+{% endblock %}
+
+{% block content %}
+
+<section class="prediction-section">
+
+    <div class="container">
+
+        <!-- ================= HEADER ================= -->
+
+        <div class="prediction-header text-center">
+
+            <div class="prediction-icon">
+                🌾
+            </div>
+
+            <h1>
+                AI Crop Prediction
+            </h1>
+
+            <p>
+                Enter your soil and weather details to find the most suitable crop.
+            </p>
+
+        </div>
+
+
+        <!-- ================= MAIN CARD ================= -->
+
+        <div class="prediction-main-card">
+
+            <form action="/predict" method="POST">
+
+                <!-- ================= SOIL INFORMATION ================= -->
+
+                <div class="form-section-title">
+
+                    <span>
+                        🌱
+                    </span>
+
+                    <div>
+
+                        <h3>
+                            Soil Information
+                        </h3>
+
+                        <p>
+                            Enter the nutrient values available in your soil.
+                        </p>
+
+                    </div>
+
+                </div>
+
+
+                <div class="row g-4">
+
+
+                    <!-- Nitrogen -->
+
+                    <div class="col-lg-4 col-md-6">
+
+                        <div class="input-card">
+
+                            <label>
+                                🌿 Nitrogen (N)
+                            </label>
+
+                            <input
+                                type="number"
+                                name="N"
+                                class="form-control"
+                                placeholder="Example: 90"
+                                min="0"
+                                required>
+
+                            <small>
+                                Amount of nitrogen in the soil.
+                            </small>
+
+                        </div>
+
+                    </div>
+
+
+                    <!-- Phosphorus -->
+
+                    <div class="col-lg-4 col-md-6">
+
+                        <div class="input-card">
+
+                            <label>
+                                🧪 Phosphorus (P)
+                            </label>
+
+                            <input
+                                type="number"
+                                name="P"
+                                class="form-control"
+                                placeholder="Example: 42"
+                                min="0"
+                                required>
+
+                            <small>
+                                Amount of phosphorus in the soil.
+                            </small>
+
+                        </div>
+
+                    </div>
+
+
+                    <!-- Potassium -->
+
+                    <div class="col-lg-4 col-md-6">
+
+                        <div class="input-card">
+
+                            <label>
+                                🌱 Potassium (K)
+                            </label>
+
+                            <input
+                                type="number"
+                                name="K"
+                                class="form-control"
+                                placeholder="Example: 43"
+                                min="0"
+                                required>
+
+                            <small>
+                                Amount of potassium in the soil.
+                            </small>
+
+                        </div>
+
+                    </div>
+
+
+                    <!-- pH -->
+
+                    <div class="col-lg-6 col-md-6">
+
+                        <div class="input-card">
+
+                            <label>
+                                🧫 Soil pH
+                            </label>
+
+                            <input
+                                type="number"
+                                step="any"
+                                name="ph"
+                                class="form-control"
+                                placeholder="Example: 6.5"
+                                min="0"
+                                max="14"
+                                required>
+
+                            <small>
+                                Soil acidity or alkalinity level (0–14).
+                            </small>
+
+                        </div>
+
+                    </div>
+
+
+                    <!-- ================= WEATHER INFORMATION ================= -->
+
+                    <div class="col-lg-6 col-md-6">
+
+                        <div class="input-card">
+
+                            <label>
+                                🌡 Temperature (°C)
+                            </label>
+
+                            <input
+                                type="number"
+                                step="any"
+                                name="temperature"
+                                class="form-control"
+                                placeholder="Example: 25"
+                                required>
+
+                            <small>
+                                Average temperature of the farming area.
+                            </small>
+
+                        </div>
+
+                    </div>
+
+
+                    <!-- Humidity -->
+
+                    <div class="col-lg-6 col-md-6">
+
+                        <div class="input-card">
+
+                            <label>
+                                💧 Humidity (%)
+                            </label>
+
+                            <input
+                                type="number"
+                                step="any"
+                                name="humidity"
+                                class="form-control"
+                                placeholder="Example: 70"
+                                min="0"
+                                max="100"
+                                required>
+
+                            <small>
+                                Relative humidity of the farming area.
+                            </small>
+
+                        </div>
+
+                    </div>
+
+
+                    <!-- Rainfall -->
+
+                    <div class="col-lg-6 col-md-6">
+
+                        <div class="input-card">
+
+                            <label>
+                                🌧️ Rainfall (mm)
+                            </label>
+
+                            <input
+                                type="number"
+                                step="any"
+                                name="rainfall"
+                                class="form-control"
+                                placeholder="Example: 200"
+                                min="0"
+                                required>
+
+                            <small>
+                                Expected rainfall in millimeters.
+                            </small>
+
+                        </div>
+
+                    </div>
+
+                </div>
+
+
+                <!-- ================= PREDICT BUTTON ================= -->
+
+                <div class="prediction-button-area">
+
+                    <button
+                        type="submit"
+                        class="btn btn-success btn-lg">
+
+                        🤖 Predict Best Crop
+
+                    </button>
+
+                    <p>
+                        Our Machine Learning model will analyze your inputs.
+                    </p>
+
+                </div>
+
+            </form>
+
+
+            <!-- ================= FEATURES ================= -->
+
+            <div class="prediction-features">
+
+                <div class="row g-4">
+
+
+                    <div class="col-lg-4">
+
+                        <div class="prediction-feature-card">
+
+                            <div class="feature-icon">
+                                🌱
+                            </div>
+
+                            <h4>
+                                Soil Analysis
+                            </h4>
+
+                            <p>
+                                NPK and pH values help identify suitable crops.
+                            </p>
+
+                        </div>
+
+                    </div>
+
+
+                    <div class="col-lg-4">
+
+                        <div class="prediction-feature-card">
+
+                            <div class="feature-icon">
+                                🤖
+                            </div>
+
+                            <h4>
+                                AI Prediction
+                            </h4>
+
+                            <p>
+                                Machine Learning analyzes your farming conditions.
+                            </p>
+
+                        </div>
+
+                    </div>
+
+
+                    <div class="col-lg-4">
+
+                        <div class="prediction-feature-card">
+
+                            <div class="feature-icon">
+                                📄
+                            </div>
+
+                            <h4>
+                                Detailed Report
+                            </h4>
+
+                            <p>
+                                Get crop information and download your PDF report.
+                            </p>
+
+                        </div>
+
+                    </div>
+
+
+                </div>
+
+            </div>
+
+        </div>
+
+    </div>
+
+</section>
+
+
+<!-- ================= PAGE CSS ================= -->
+
+<style>
+
+/* ===========================================
+       PREDICTION SECTION
+=========================================== */
+
+.prediction-section{
+
+    min-height:80vh;
+
+    padding:75px 20px;
+
+    background:
+    linear-gradient(
+        135deg,
+        #f5fff8,
+        #eafff0,
+        #f9fffa
+    );
+
+}
+
+
+/* ===========================================
+       HEADER
+=========================================== */
+
+.prediction-header{
+
+    margin-bottom:40px;
+
+}
+
+
+.prediction-icon{
+
+    width:80px;
+
+    height:80px;
+
+    margin:0 auto 20px;
+
+    border-radius:50%;
+
+    display:flex;
+
+    align-items:center;
+
+    justify-content:center;
+
+    background:#dff8e8;
+
+    font-size:42px;
+
+    box-shadow:
+    0 10px 30px rgba(25,135,84,.15);
+
+}
+
+
+.prediction-header h1{
+
+    color:#198754;
+
+    font-size:44px;
+
+    font-weight:800;
+
+    margin-bottom:12px;
+
+}
+
+
+.prediction-header p{
+
+    color:#666;
+
+    font-size:17px;
+
+}
+
+
+/* ===========================================
+       MAIN CARD
+=========================================== */
+
+.prediction-main-card{
+
+    max-width:1050px;
+
+    margin:auto;
+
+    padding:45px;
+
+    background:#ffffff;
+
+    border-radius:30px;
+
+    box-shadow:
+    0 20px 60px rgba(0,0,0,.09);
+
+}
+
+
+/* ===========================================
+       SECTION TITLE
+=========================================== */
+
+.form-section-title{
+
+    display:flex;
+
+    align-items:center;
+
+    gap:18px;
+
+    margin-bottom:30px;
+
+    padding-bottom:20px;
+
+    border-bottom:2px solid #e8f5ec;
+
+}
+
+
+.form-section-title > span{
+
+    width:55px;
+
+    height:55px;
+
+    display:flex;
+
+    align-items:center;
+
+    justify-content:center;
+
+    background:#e7f9ed;
+
+    border-radius:15px;
+
+    font-size:28px;
+
+}
+
+
+.form-section-title h3{
+
+    color:#198754;
+
+    font-weight:800;
+
+    margin:0;
+
+}
+
+
+.form-section-title p{
+
+    margin:4px 0 0;
+
+    color:#777;
+
+}
+
+
+/* ===========================================
+       INPUT CARDS
+=========================================== */
+
+.input-card{
+
+    height:100%;
+
+    padding:22px;
+
+    border-radius:18px;
+
+    background:#f9fffb;
+
+    border:1px solid #dcefe2;
+
+    transition:.3s;
+
+}
+
+
+.input-card:hover{
+
+    transform:translateY(-4px);
+
+    border-color:#198754;
+
+    box-shadow:
+    0 10px 25px rgba(25,135,84,.10);
+
+}
+
+
+.input-card label{
+
+    display:block;
+
+    margin-bottom:10px;
+
+    color:#198754;
+
+    font-size:17px;
+
+    font-weight:700;
+
+}
+
+
+.input-card .form-control{
+
+    height:52px;
+
+    border-radius:12px;
+
+    border:2px solid #dce9df;
+
+    font-size:16px;
+
+    padding:10px 15px;
+
+    transition:.3s;
+
+}
+
+
+.input-card .form-control:focus{
+
+    border-color:#198754;
+
+    box-shadow:
+    0 0 0 4px rgba(25,135,84,.10);
+
+}
+
+
+.input-card small{
+
+    display:block;
+
+    margin-top:10px;
+
+    color:#777;
+
+    line-height:1.5;
+
+}
+
+
+/* ===========================================
+       PREDICT BUTTON
+=========================================== */
+
+.prediction-button-area{
+
+    text-align:center;
+
+    margin-top:45px;
+
+    padding-top:35px;
+
+    border-top:2px solid #e8f5ec;
+
+}
+
+
+.prediction-button-area .btn{
+
+    padding:15px 45px;
+
+    font-size:18px;
+
+    font-weight:700;
+
+}
+
+
+.prediction-button-area p{
+
+    margin-top:15px;
+
+    color:#777;
+
+    font-size:14px;
+
+}
+
+
+/* ===========================================
+       FEATURES
+=========================================== */
+
+.prediction-features{
+
+    margin-top:50px;
+
+    padding-top:35px;
+
+    border-top:2px solid #e8f5ec;
+
+}
+
+
+.prediction-feature-card{
+
+    height:100%;
+
+    padding:25px;
+
+    text-align:center;
+
+    border-radius:20px;
+
+    background:#f5fff8;
+
+    transition:.3s;
+
+}
+
+
+.prediction-feature-card:hover{
+
+    transform:translateY(-5px);
+
+    background:#ecfff2;
+
+}
+
+
+.feature-icon{
+
+    width:65px;
+
+    height:65px;
+
+    margin:0 auto 15px;
+
+    display:flex;
+
+    align-items:center;
+
+    justify-content:center;
+
+    border-radius:18px;
+
+    background:#dff8e8;
+
+    font-size:30px;
+
+}
+
+
+.prediction-feature-card h4{
+
+    color:#198754;
+
+    font-weight:700;
+
+    margin-bottom:10px;
+
+}
+
+
+.prediction-feature-card p{
+
+    color:#666;
+
+    line-height:1.6;
+
+    margin:0;
+
+}
+
+
+/* ===========================================
+       MOBILE
+=========================================== */
+
+@media(max-width:768px){
+
+    .prediction-section{
+
+        padding:50px 15px;
+
+    }
+
+
+    .prediction-main-card{
+
+        padding:25px 18px;
+
+        border-radius:20px;
+
+    }
+
+
+    .prediction-header h1{
+
+        font-size:32px;
+
+    }
+
+
+    .form-section-title{
+
+        align-items:flex-start;
+
+    }
+
+
+    .prediction-button-area .btn{
+
+        width:100%;
+
+    }
+
+}
+
+</style>
+
+{% endblock %}
