@@ -7,4 +7,4 @@ __pycache__/
 prediction_report.pdf
 saved_predictions/prediction_history.csv
 saved_messages/
-reports/
+reports/model/leaf_disease_model.pkl
