@@ -1,14 +1,784 @@
-<!DOCTYPE html>
-<html>
-<head>
-    <title>About</title>
-</head>
+{% extends "base.html" %}
 
-<body>
+{% block title %}
+About AgriVision AI
+{% endblock %}
 
-<h1>About AgriVision AI</h1>
+{% block content %}
 
-<p>This page is under construction.</p>
+<div class="container-fluid">
 
-</body>
-</html>
+
+    <!-- ===================================================== -->
+    <!-- HERO SECTION -->
+    <!-- ===================================================== -->
+
+    <div class="text-center mb-5">
+
+        <span class="badge bg-success fs-6 px-3 py-2 mb-3">
+            🌾 Smart Agriculture Platform
+        </span>
+
+        <h1 class="display-4 fw-bold text-success">
+            About AgriVision AI
+        </h1>
+
+        <p class="lead text-muted mt-3 mx-auto"
+           style="max-width: 850px;">
+
+            AgriVision AI is an AI-powered Smart Agriculture Assistant
+            designed to help farmers make better decisions using
+            Machine Learning, weather information and crop intelligence.
+
+        </p>
+
+    </div>
+
+
+    <!-- ===================================================== -->
+    <!-- ABOUT PROJECT -->
+    <!-- ===================================================== -->
+
+    <div class="card border-0 shadow-lg rounded-4 mb-5">
+
+        <div class="card-body p-5">
+
+            <div class="row align-items-center">
+
+                <div class="col-lg-7">
+
+                    <h2 class="fw-bold text-success mb-4">
+                        🌱 What is AgriVision AI?
+                    </h2>
+
+                    <p class="text-muted fs-5">
+
+                        AgriVision AI is a web-based smart agriculture
+                        platform developed to provide useful agricultural
+                        information and intelligent recommendations.
+
+                    </p>
+
+                    <p class="text-muted fs-5">
+
+                        The system uses Machine Learning to recommend a
+                        suitable crop based on soil nutrients and weather
+                        conditions. It also provides plant disease
+                        detection, live weather information and detailed
+                        information about crops grown in Maharashtra.
+
+                    </p>
+
+                    <p class="text-muted fs-5 mb-0">
+
+                        The main goal of the project is to demonstrate how
+                        Artificial Intelligence and web technologies can
+                        be combined to support smarter farming decisions.
+
+                    </p>
+
+                </div>
+
+
+                <div class="col-lg-5 text-center mt-4 mt-lg-0">
+
+                    <div style="font-size: 130px;">
+                        🌾
+                    </div>
+
+                    <h4 class="fw-bold text-success">
+                        Smart Farming
+                    </h4>
+
+                    <p class="text-muted">
+                        Technology for better agricultural decisions
+                    </p>
+
+                </div>
+
+            </div>
+
+        </div>
+
+    </div>
+
+
+    <!-- ===================================================== -->
+    <!-- PROJECT OBJECTIVE -->
+    <!-- ===================================================== -->
+
+    <div class="card border-0 shadow-lg rounded-4 mb-5">
+
+        <div class="card-body p-5 text-center">
+
+            <div style="font-size: 55px;">
+                🎯
+            </div>
+
+            <h2 class="fw-bold text-success mt-3">
+                Project Objective
+            </h2>
+
+            <p class="lead text-muted mt-3 mx-auto"
+               style="max-width: 850px;">
+
+                To develop a simple and useful Smart Agriculture Assistant
+                that uses Artificial Intelligence, Machine Learning and
+                real-time weather information to assist farmers in making
+                informed agricultural decisions.
+
+            </p>
+
+        </div>
+
+    </div>
+
+
+    <!-- ===================================================== -->
+    <!-- FEATURES -->
+    <!-- ===================================================== -->
+
+    <div class="text-center mb-4">
+
+        <h2 class="fw-bold text-success">
+            🚀 Key Features
+        </h2>
+
+        <p class="text-muted">
+            Major features available in AgriVision AI
+        </p>
+
+    </div>
+
+
+    <div class="row g-4 mb-5">
+
+
+        <!-- CROP PREDICTION -->
+
+        <div class="col-lg-4 col-md-6">
+
+            <div class="card border-0 shadow-lg rounded-4 h-100">
+
+                <div class="card-body p-4 text-center">
+
+                    <div style="font-size: 55px;">
+                        🌱
+                    </div>
+
+                    <h4 class="fw-bold text-success mt-3">
+                        Crop Prediction
+                    </h4>
+
+                    <p class="text-muted">
+
+                        The Machine Learning model recommends a suitable
+                        crop based on nitrogen, phosphorus, potassium,
+                        temperature, humidity, soil pH and rainfall.
+
+                    </p>
+
+                    <a href="/predict-page"
+                       class="btn btn-outline-success">
+
+                        Try Crop Prediction
+
+                    </a>
+
+                </div>
+
+            </div>
+
+        </div>
+
+
+        <!-- DISEASE DETECTION -->
+
+        <div class="col-lg-4 col-md-6">
+
+            <div class="card border-0 shadow-lg rounded-4 h-100">
+
+                <div class="card-body p-4 text-center">
+
+                    <div style="font-size: 55px;">
+                        🦠
+                    </div>
+
+                    <h4 class="fw-bold text-success mt-3">
+                        Leaf Disease Detection
+                    </h4>
+
+                    <p class="text-muted">
+
+                        Upload a crop leaf image and the AI model analyzes
+                        the image to identify supported plant diseases
+                        and provide basic recommendations.
+
+                    </p>
+
+                    <a href="/disease"
+                       class="btn btn-outline-success">
+
+                        Check Leaf Disease
+
+                    </a>
+
+                </div>
+
+            </div>
+
+        </div>
+
+
+        <!-- WEATHER -->
+
+        <div class="col-lg-4 col-md-6">
+
+            <div class="card border-0 shadow-lg rounded-4 h-100">
+
+                <div class="card-body p-4 text-center">
+
+                    <div style="font-size: 55px;">
+                        🌦️
+                    </div>
+
+                    <h4 class="fw-bold text-success mt-3">
+                        Weather Information
+                    </h4>
+
+                    <p class="text-muted">
+
+                        Get current weather conditions and a 7-day
+                        forecast to help plan farming activities such as
+                        irrigation and field work.
+
+                    </p>
+
+                    <a href="/weather"
+                       class="btn btn-outline-success">
+
+                        Check Weather
+
+                    </a>
+
+                </div>
+
+            </div>
+
+        </div>
+
+
+        <!-- MAHARASHTRA CROPS -->
+
+        <div class="col-lg-4 col-md-6">
+
+            <div class="card border-0 shadow-lg rounded-4 h-100">
+
+                <div class="card-body p-4 text-center">
+
+                    <div style="font-size: 55px;">
+                        🌾
+                    </div>
+
+                    <h4 class="fw-bold text-success mt-3">
+                        Maharashtra Crop Guide
+                    </h4>
+
+                    <p class="text-muted">
+
+                        Explore information about major crops grown in
+                        Maharashtra, including seasons, fertilizers,
+                        water requirements and farming practices.
+
+                    </p>
+
+                    <a href="/maharashtra-crops"
+                       class="btn btn-outline-success">
+
+                        Explore Crops
+
+                    </a>
+
+                </div>
+
+            </div>
+
+        </div>
+
+
+        <!-- HISTORY -->
+
+        <div class="col-lg-4 col-md-6">
+
+            <div class="card border-0 shadow-lg rounded-4 h-100">
+
+                <div class="card-body p-4 text-center">
+
+                    <div style="font-size: 55px;">
+                        📊
+                    </div>
+
+                    <h4 class="fw-bold text-success mt-3">
+                        Prediction History
+                    </h4>
+
+                    <p class="text-muted">
+
+                        Previous crop predictions are stored so that
+                        users can review the soil and weather conditions
+                        used for earlier recommendations.
+
+                    </p>
+
+                    <a href="/history"
+                       class="btn btn-outline-success">
+
+                        View History
+
+                    </a>
+
+                </div>
+
+            </div>
+
+        </div>
+
+
+        <!-- PDF REPORT -->
+
+        <div class="col-lg-4 col-md-6">
+
+            <div class="card border-0 shadow-lg rounded-4 h-100">
+
+                <div class="card-body p-4 text-center">
+
+                    <div style="font-size: 55px;">
+                        📄
+                    </div>
+
+                    <h4 class="fw-bold text-success mt-3">
+                        PDF Reports
+                    </h4>
+
+                    <p class="text-muted">
+
+                        Generate a professional crop prediction report
+                        containing the recommended crop, fertilizer,
+                        season, water requirement and farming advice.
+
+                    </p>
+
+                    <a href="/predict-page"
+                       class="btn btn-outline-success">
+
+                        Generate Report
+
+                    </a>
+
+                </div>
+
+            </div>
+
+        </div>
+
+    </div>
+
+
+    <!-- ===================================================== -->
+    <!-- TECHNOLOGIES -->
+    <!-- ===================================================== -->
+
+    <div class="card border-0 shadow-lg rounded-4 mb-5">
+
+        <div class="card-body p-5 text-center">
+
+            <div style="font-size: 55px;">
+                🛠️
+            </div>
+
+            <h2 class="fw-bold text-success mt-3">
+                Technologies Used
+            </h2>
+
+            <p class="text-muted mb-4">
+                Technologies and tools used to develop the project
+            </p>
+
+
+            <div class="row g-3 justify-content-center">
+
+                <div class="col-lg-2 col-md-4 col-6">
+
+                    <div class="p-3 bg-light rounded-3 fw-bold">
+                        🐍 Python
+                    </div>
+
+                </div>
+
+
+                <div class="col-lg-2 col-md-4 col-6">
+
+                    <div class="p-3 bg-light rounded-3 fw-bold">
+                        🌐 Flask
+                    </div>
+
+                </div>
+
+
+                <div class="col-lg-2 col-md-4 col-6">
+
+                    <div class="p-3 bg-light rounded-3 fw-bold">
+                        🤖 Scikit-learn
+                    </div>
+
+                </div>
+
+
+                <div class="col-lg-2 col-md-4 col-6">
+
+                    <div class="p-3 bg-light rounded-3 fw-bold">
+                        📊 Pandas
+                    </div>
+
+                </div>
+
+
+                <div class="col-lg-2 col-md-4 col-6">
+
+                    <div class="p-3 bg-light rounded-3 fw-bold">
+                        🔢 NumPy
+                    </div>
+
+                </div>
+
+
+                <div class="col-lg-2 col-md-4 col-6">
+
+                    <div class="p-3 bg-light rounded-3 fw-bold">
+                        🎨 HTML/CSS
+                    </div>
+
+                </div>
+
+
+                <div class="col-lg-2 col-md-4 col-6">
+
+                    <div class="p-3 bg-light rounded-3 fw-bold">
+                        🅱️ Bootstrap
+                    </div>
+
+                </div>
+
+
+                <div class="col-lg-2 col-md-4 col-6">
+
+                    <div class="p-3 bg-light rounded-3 fw-bold">
+                        📄 ReportLab
+                    </div>
+
+                </div>
+
+            </div>
+
+        </div>
+
+    </div>
+
+
+    <!-- ===================================================== -->
+    <!-- HOW IT WORKS -->
+    <!-- ===================================================== -->
+
+    <div class="text-center mb-4">
+
+        <h2 class="fw-bold text-success">
+            ⚙️ How AgriVision AI Works
+        </h2>
+
+        <p class="text-muted">
+            Simple workflow of the smart agriculture system
+        </p>
+
+    </div>
+
+
+    <div class="row g-4 mb-5">
+
+
+        <div class="col-lg-3 col-md-6">
+
+            <div class="text-center">
+
+                <div
+                    class="bg-success text-white rounded-circle mx-auto mb-3 d-flex align-items-center justify-content-center"
+                    style="width:75px;height:75px;font-size:30px;"
+                >
+                    1
+                </div>
+
+                <h5 class="fw-bold">
+                    Enter Data
+                </h5>
+
+                <p class="text-muted">
+                    Enter soil nutrient and weather parameters.
+                </p>
+
+            </div>
+
+        </div>
+
+
+        <div class="col-lg-3 col-md-6">
+
+            <div class="text-center">
+
+                <div
+                    class="bg-success text-white rounded-circle mx-auto mb-3 d-flex align-items-center justify-content-center"
+                    style="width:75px;height:75px;font-size:30px;"
+                >
+                    2
+                </div>
+
+                <h5 class="fw-bold">
+                    AI Analysis
+                </h5>
+
+                <p class="text-muted">
+                    The Machine Learning model analyzes the input data.
+                </p>
+
+            </div>
+
+        </div>
+
+
+        <div class="col-lg-3 col-md-6">
+
+            <div class="text-center">
+
+                <div
+                    class="bg-success text-white rounded-circle mx-auto mb-3 d-flex align-items-center justify-content-center"
+                    style="width:75px;height:75px;font-size:30px;"
+                >
+                    3
+                </div>
+
+                <h5 class="fw-bold">
+                    Get Recommendation
+                </h5>
+
+                <p class="text-muted">
+                    The system provides a suitable crop recommendation.
+                </p>
+
+            </div>
+
+        </div>
+
+
+        <div class="col-lg-3 col-md-6">
+
+            <div class="text-center">
+
+                <div
+                    class="bg-success text-white rounded-circle mx-auto mb-3 d-flex align-items-center justify-content-center"
+                    style="width:75px;height:75px;font-size:30px;"
+                >
+                    4
+                </div>
+
+                <h5 class="fw-bold">
+                    Smart Decision
+                </h5>
+
+                <p class="text-muted">
+                    Review the recommendation and farming information.
+                </p>
+
+            </div>
+
+        </div>
+
+    </div>
+
+
+    <!-- ===================================================== -->
+    <!-- PROJECT SCOPE -->
+    <!-- ===================================================== -->
+
+    <div class="card border-0 shadow-lg rounded-4 mb-5">
+
+        <div class="card-body p-5">
+
+            <div class="text-center">
+
+                <div style="font-size: 55px;">
+                    🎓
+                </div>
+
+                <h2 class="fw-bold text-success mt-3">
+                    Diploma Final Year Project
+                </h2>
+
+            </div>
+
+            <p class="text-muted lead text-center mt-4">
+
+                AgriVision AI has been developed as a Diploma Final Year
+                Project to demonstrate the practical application of
+                Artificial Intelligence, Machine Learning and web
+                development in the field of agriculture.
+
+            </p>
+
+            <p class="text-muted text-center mb-0">
+
+                The project focuses on creating a simple, practical and
+                user-friendly platform that combines multiple
+                agriculture-related technologies in one application.
+
+            </p>
+
+        </div>
+
+    </div>
+
+
+    <!-- ===================================================== -->
+    <!-- FUTURE SCOPE -->
+    <!-- ===================================================== -->
+
+    <div class="card border-0 shadow-lg rounded-4 mb-5">
+
+        <div class="card-body p-5">
+
+            <div class="text-center">
+
+                <div style="font-size: 55px;">
+                    🔮
+                </div>
+
+                <h2 class="fw-bold text-success mt-3">
+                    Future Scope
+                </h2>
+
+                <p class="text-muted mt-3">
+                    Possible improvements for future versions
+                </p>
+
+            </div>
+
+
+            <div class="row g-3 mt-3">
+
+                <div class="col-md-6">
+
+                    <div class="p-3 bg-light rounded-3">
+                        📱 Mobile application for farmers
+                    </div>
+
+                </div>
+
+                <div class="col-md-6">
+
+                    <div class="p-3 bg-light rounded-3">
+                        🌐 Multi-language support
+                    </div>
+
+                </div>
+
+                <div class="col-md-6">
+
+                    <div class="p-3 bg-light rounded-3">
+                        📷 Advanced crop image analysis
+                    </div>
+
+                </div>
+
+                <div class="col-md-6">
+
+                    <div class="p-3 bg-light rounded-3">
+                        📡 IoT-based soil monitoring
+                    </div>
+
+                </div>
+
+                <div class="col-md-6">
+
+                    <div class="p-3 bg-light rounded-3">
+                        🧠 Improved Machine Learning models
+                    </div>
+
+                </div>
+
+                <div class="col-md-6">
+
+                    <div class="p-3 bg-light rounded-3">
+                        🌾 Personalized farming recommendations
+                    </div>
+
+                </div>
+
+            </div>
+
+        </div>
+
+    </div>
+
+
+    <!-- ===================================================== -->
+    <!-- CALL TO ACTION -->
+    <!-- ===================================================== -->
+
+    <div class="card border-0 shadow-lg rounded-4 mb-5 bg-success text-white">
+
+        <div class="card-body p-5 text-center">
+
+            <div style="font-size: 55px;">
+                🌱
+            </div>
+
+            <h2 class="fw-bold mt-3">
+                Start Using AgriVision AI
+            </h2>
+
+            <p class="lead mt-3">
+
+                Explore the available agriculture tools and make
+                smarter farming decisions.
+
+            </p>
+
+
+            <div class="mt-4">
+
+                <a
+                    href="/predict-page"
+                    class="btn btn-light btn-lg px-4 me-2 mb-2"
+                >
+
+                    🚀 Predict Crop
+
+                </a>
+
+
+                <a
+                    href="/weather"
+                    class="btn btn-outline-light btn-lg px-4 mb-2"
+                >
+
+                    🌦️ Check Weather
+
+                </a>
+
+            </div>
+
+        </div>
+
+    </div>
+
+
+</div>
+
+{% endblock %}

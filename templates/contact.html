@@ -1,14 +1,255 @@
-<!DOCTYPE html>
-<html>
-<head>
-    <title>Contact</title>
-</head>
+{% extends "base.html" %}
 
-<body>
+{% block title %}
+Contact Us | AgriVision AI
+{% endblock %}
 
-<h1>Contact Us</h1>
+{% block content %}
 
-<p>This page is under construction.</p>
+<div class="container py-5">
 
-</body>
-</html>
+    <!-- ================= HEADER ================= -->
+
+    <div class="text-center mb-5">
+
+        <span class="badge bg-success fs-6 mb-3">
+            📩 Get In Touch
+        </span>
+
+        <h1 class="display-5 fw-bold text-success">
+            Contact AgriVision AI
+        </h1>
+
+        <p class="lead text-muted">
+            Have a question about crop prediction, weather,
+            diseases or farming? Send us a message.
+        </p>
+
+    </div>
+
+
+    <div class="row justify-content-center g-4">
+
+        <!-- ================= CONTACT INFORMATION ================= -->
+
+        <div class="col-lg-5">
+
+            <div class="card border-0 shadow-lg rounded-4 h-100">
+
+                <div class="card-body p-5">
+
+                    <h3 class="fw-bold text-success mb-4">
+                        🌾 We're Here to Help
+                    </h3>
+
+                    <p class="text-muted">
+                        Farmers can contact AgriVision AI for
+                        assistance regarding crop recommendations,
+                        weather information and plant disease detection.
+                    </p>
+
+
+                    <div class="mt-4">
+
+                        <div class="d-flex align-items-center mb-4">
+
+                            <div class="fs-2 me-3">
+                                📧
+                            </div>
+
+                            <div>
+                                <h6 class="fw-bold mb-1">
+                                    Email
+                                </h6>
+
+                                <p class="text-muted mb-0">
+                                    agrivisionai@gmail.com
+                                </p>
+                            </div>
+
+                        </div>
+
+
+                        <div class="d-flex align-items-center mb-4">
+
+                            <div class="fs-2 me-3">
+                                🌾
+                            </div>
+
+                            <div>
+                                <h6 class="fw-bold mb-1">
+                                    Agriculture Support
+                                </h6>
+
+                                <p class="text-muted mb-0">
+                                    Crop & Farming Assistance
+                                </p>
+                            </div>
+
+                        </div>
+
+
+                        <div class="d-flex align-items-center">
+
+                            <div class="fs-2 me-3">
+                                🤖
+                            </div>
+
+                            <div>
+                                <h6 class="fw-bold mb-1">
+                                    AI Assistance
+                                </h6>
+
+                                <p class="text-muted mb-0">
+                                    Smart Agriculture Recommendations
+                                </p>
+                            </div>
+
+                        </div>
+
+                    </div>
+
+                </div>
+
+            </div>
+
+        </div>
+
+
+        <!-- ================= MESSAGE FORM ================= -->
+
+        <div class="col-lg-7">
+
+            <div class="card border-0 shadow-lg rounded-4">
+
+                <div class="card-body p-5">
+
+                    <h3 class="fw-bold text-success mb-4">
+                        📩 Send Us a Message
+                    </h3>
+
+
+                    <!-- SUCCESS MESSAGE -->
+
+                    {% if success %}
+
+                    <div class="alert alert-success rounded-3">
+
+                        ✅ {{ success }}
+
+                    </div>
+
+                    {% endif %}
+
+
+                    <!-- ERROR MESSAGE -->
+
+                    {% if error %}
+
+                    <div class="alert alert-danger rounded-3">
+
+                        ⚠️ {{ error }}
+
+                    </div>
+
+                    {% endif %}
+
+
+                    <form method="POST" action="/contact">
+
+
+                        <!-- NAME -->
+
+                        <div class="mb-4">
+
+                            <label class="form-label fw-semibold">
+                                👤 Your Name
+                            </label>
+
+                            <input
+                                type="text"
+                                name="name"
+                                class="form-control form-control-lg"
+                                placeholder="Enter your name"
+                                required
+                            >
+
+                        </div>
+
+
+                        <!-- EMAIL -->
+
+                        <div class="mb-4">
+
+                            <label class="form-label fw-semibold">
+                                📧 Email Address
+                            </label>
+
+                            <input
+                                type="email"
+                                name="email"
+                                class="form-control form-control-lg"
+                                placeholder="Enter your email"
+                                required
+                            >
+
+                        </div>
+
+
+                        <!-- MESSAGE -->
+
+                        <div class="mb-4">
+
+                            <label class="form-label fw-semibold">
+                                💬 Your Message
+                            </label>
+
+                            <textarea
+                                name="message"
+                                class="form-control"
+                                rows="6"
+                                placeholder="Write your message here..."
+                                required
+                            ></textarea>
+
+                        </div>
+
+
+                        <!-- SUBMIT -->
+
+                        <button
+                            type="submit"
+                            class="btn btn-success btn-lg w-100"
+                        >
+
+                            📤 Send Message
+
+                        </button>
+
+                    </form>
+
+                </div>
+
+            </div>
+
+        </div>
+
+    </div>
+
+
+    <!-- ================= NOTE ================= -->
+
+    <div class="text-center mt-5">
+
+        <p class="text-muted">
+
+            🔒 Your message will be stored securely for
+            AgriVision AI administration.
+
+        </p>
+
+    </div>
+
+</div>
+
+{% endblock %}

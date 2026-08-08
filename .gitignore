@@ -1,6 +1,10 @@
 venv/
-.venv/
 __pycache__/
 *.pyc
 .env
-model/leaf_disease_model.pkl
+.vscode/
+
+prediction_report.pdf
+saved_predictions/prediction_history.csv
+saved_messages/
+reports/

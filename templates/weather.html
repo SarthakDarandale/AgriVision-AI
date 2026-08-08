@@ -6,317 +6,351 @@ Weather Dashboard | AgriVision AI
 
 {% block content %}
 
-<section class="py-5">
+<!-- ================= HEADER ================= -->
 
-<div class="container">
+<div class="text-center mb-5">
 
-    <!-- ================= HEADER ================= -->
+    <h1 class="display-5 fw-bold text-success">
+        🌦️ Live Weather Dashboard
+    </h1>
 
-    <div class="text-center mb-5">
+    <p class="text-muted fs-5">
+        Check real-time weather and 7-day forecasts for any city.
+    </p>
 
-        <h1 class="display-5 fw-bold text-success">
-            🌦️ Live Weather Dashboard
-        </h1>
+</div>
 
-        <p class="text-muted fs-5">
-            Check real-time weather and 7-day forecasts for any city.
+
+<!-- ================= SEARCH ================= -->
+
+<div class="row justify-content-center mb-5">
+
+    <div class="col-lg-8">
+
+        <div class="card border-0 shadow-lg rounded-4">
+
+            <div class="card-body p-4">
+
+                <form method="POST">
+
+                    <div class="input-group input-group-lg">
+
+                        <input
+                            type="text"
+                            name="city"
+                            class="form-control"
+                            placeholder="🌍 Enter any city..."
+                            autocomplete="off"
+                            required
+                        >
+
+                        <button
+                            type="submit"
+                            class="btn btn-success px-4">
+
+                            🔍 Check Weather
+
+                        </button>
+
+                    </div>
+
+                </form>
+
+                <p class="text-muted text-center mt-3 mb-0">
+
+                    Example:
+                    Pune, Mumbai, Nagpur, Delhi, London, Dubai
+
+                </p>
+
+            </div>
+
+        </div>
+
+    </div>
+
+</div>
+
+
+<!-- ================= ERROR MESSAGE ================= -->
+
+{% if weather_error %}
+
+<div class="alert alert-warning text-center rounded-4 shadow-sm mb-5">
+
+    🌦️ {{ weather_error }}
+
+</div>
+
+{% endif %}
+
+
+{% if weather %}
+
+
+<!-- ================= LOCATION ================= -->
+
+<div class="text-center mb-5">
+
+    <div class="weather-location">
+
+        <h2 class="fw-bold text-success">
+
+            {{ weather.icon }}
+
+            {{ weather.city }}
+
+            {% if weather.country %}
+                , {{ weather.country }}
+            {% endif %}
+
+        </h2>
+
+        <h5 class="text-muted mt-2">
+
+            {{ weather.weather_code }}
+
+        </h5>
+
+    </div>
+
+</div>
+
+
+<!-- ================= CURRENT WEATHER ================= -->
+
+<div class="row g-4 mb-5">
+
+
+    <!-- TEMPERATURE -->
+
+    <div class="col-lg-3 col-md-6">
+
+        <div class="weather-card text-center h-100">
+
+            <div class="weather-icon">
+                🌡️
+            </div>
+
+            <h5 class="mt-3">
+                Temperature
+            </h5>
+
+            <h2 class="text-success fw-bold">
+
+                {{ weather.temperature }}°C
+
+            </h2>
+
+        </div>
+
+    </div>
+
+
+    <!-- HUMIDITY -->
+
+    <div class="col-lg-3 col-md-6">
+
+        <div class="weather-card text-center h-100">
+
+            <div class="weather-icon">
+                💧
+            </div>
+
+            <h5 class="mt-3">
+                Humidity
+            </h5>
+
+            <h2 class="text-primary fw-bold">
+
+                {{ weather.humidity }}%
+
+            </h2>
+
+        </div>
+
+    </div>
+
+
+    <!-- RAINFALL -->
+
+    <div class="col-lg-3 col-md-6">
+
+        <div class="weather-card text-center h-100">
+
+            <div class="weather-icon">
+                🌧️
+            </div>
+
+            <h5 class="mt-3">
+                Rainfall
+            </h5>
+
+            <h2 class="text-info fw-bold">
+
+                {{ weather.rain }} mm
+
+            </h2>
+
+            <small class="text-muted">
+
+                Current precipitation
+
+            </small>
+
+        </div>
+
+    </div>
+
+
+    <!-- WIND -->
+
+    <div class="col-lg-3 col-md-6">
+
+        <div class="weather-card text-center h-100">
+
+            <div class="weather-icon">
+                💨
+            </div>
+
+            <h5 class="mt-3">
+                Wind Speed
+            </h5>
+
+            <h2 class="text-warning fw-bold">
+
+                {{ weather.windspeed }} km/h
+
+            </h2>
+
+        </div>
+
+    </div>
+
+</div>
+
+
+<!-- ================= CURRENT WEATHER SUMMARY ================= -->
+
+<div class="card border-0 shadow-lg rounded-4 mb-5">
+
+    <div class="card-body p-4 text-center">
+
+        <h4 class="fw-bold text-success">
+
+            🌤️ Current Weather Summary
+
+        </h4>
+
+        <p class="lead mt-3 mb-0">
+
+            {{ weather.icon }}
+
+            The current weather in
+
+            <strong>{{ weather.city }}</strong>
+
+            is
+
+            <strong>{{ weather.weather_code }}</strong>
+
+            with a temperature of
+
+            <strong>{{ weather.temperature }}°C</strong>.
+
+        </p>
+
+    </div>
+
+</div>
+
+
+<!-- ====================================================== -->
+<!-- 7 DAY FORECAST -->
+<!-- ====================================================== -->
+
+<div class="card border-0 shadow-lg rounded-4 mb-5">
+
+    <div class="card-header bg-success text-white text-center py-4">
+
+        <h2 class="mb-1">
+            📅 7-Day Weather Forecast
+        </h2>
+
+        <p class="mb-0">
+            Plan your farming activities according to upcoming weather.
         </p>
 
     </div>
 
 
-    <!-- ================= SEARCH ================= -->
+    <div class="card-body p-4">
 
-    <div class="row justify-content-center mb-5">
 
-        <div class="col-lg-8">
+        <!-- IMPORTANT:
+             forecast is a separate variable,
+             NOT weather.forecast
+        -->
 
-            <div class="card border-0 shadow-lg rounded-4">
+        {% if forecast and forecast|length > 0 %}
 
-                <div class="card-body p-4">
+        <div class="row g-4">
 
-                    <form method="POST">
 
-                        <div class="input-group input-group-lg">
+            {% for day in forecast %}
 
-                            <input
-                                type="text"
-                                name="city"
-                                class="form-control"
-                                placeholder="🌍 Enter any city..."
-                                autocomplete="off"
-                                required
-                            >
+            <div class="col-lg-4 col-md-6">
 
-                            <button
-                                type="submit"
-                                class="btn btn-success px-4">
 
-                                🔍 Check Weather
+                <div class="card border-0 shadow-sm rounded-4 h-100">
 
-                            </button>
+                    <div class="card-body text-center p-4">
 
-                        </div>
 
-                    </form>
-
-                    <p class="text-muted text-center mt-3 mb-0">
-
-                        Example:
-                        Pune, Mumbai, Nagpur, Delhi, London, Dubai
-
-                    </p>
-
-                </div>
-
-            </div>
-
-        </div>
-
-    </div>
-
-
-    {% if weather %}
-
-    <!-- ================= LOCATION ================= -->
-
-    <div class="text-center mb-5">
-
-        <div class="weather-location">
-
-            <h2 class="fw-bold text-success">
-
-                {{ weather.icon }}
-
-                {{ weather.city }}
-
-                {% if weather.country %}
-                    , {{ weather.country }}
-                {% endif %}
-
-            </h2>
-
-            <h5 class="text-muted mt-2">
-
-                {{ weather.weather_code }}
-
-            </h5>
-
-        </div>
-
-    </div>
-
-
-    <!-- ================= CURRENT WEATHER ================= -->
-
-    <div class="row g-4 mb-5">
-
-
-        <!-- TEMPERATURE -->
-
-        <div class="col-lg-3 col-md-6">
-
-            <div class="weather-card text-center h-100">
-
-                <div class="weather-icon">
-                    🌡️
-                </div>
-
-                <h5 class="mt-3">
-                    Temperature
-                </h5>
-
-                <h2 class="text-success fw-bold">
-
-                    {{ weather.temperature }}°C
-
-                </h2>
-
-            </div>
-
-        </div>
-
-
-        <!-- HUMIDITY -->
-
-        <div class="col-lg-3 col-md-6">
-
-            <div class="weather-card text-center h-100">
-
-                <div class="weather-icon">
-                    💧
-                </div>
-
-                <h5 class="mt-3">
-                    Humidity
-                </h5>
-
-                <h2 class="text-primary fw-bold">
-
-                    {{ weather.humidity }}%
-
-                </h2>
-
-            </div>
-
-        </div>
-
-
-        <!-- RAINFALL -->
-
-        <div class="col-lg-3 col-md-6">
-
-            <div class="weather-card text-center h-100">
-
-                <div class="weather-icon">
-                    🌧️
-                </div>
-
-                <h5 class="mt-3">
-                    Rainfall
-                </h5>
-
-                <h2 class="text-info fw-bold">
-
-                    {{ weather.rain }} mm
-
-                </h2>
-
-                <small class="text-muted">
-
-                    Current precipitation
-
-                </small>
-
-            </div>
-
-        </div>
-
-
-        <!-- WIND -->
-
-        <div class="col-lg-3 col-md-6">
-
-            <div class="weather-card text-center h-100">
-
-                <div class="weather-icon">
-                    💨
-                </div>
-
-                <h5 class="mt-3">
-                    Wind Speed
-                </h5>
-
-                <h2 class="text-warning fw-bold">
-
-                    {{ weather.windspeed }} km/h
-
-                </h2>
-
-            </div>
-
-        </div>
-
-    </div>
-
-
-    <!-- ================= CURRENT WEATHER SUMMARY ================= -->
-
-    <div class="card border-0 shadow-lg rounded-4 mb-5">
-
-        <div class="card-body p-4 text-center">
-
-            <h4 class="fw-bold text-success">
-
-                🌤️ Current Weather Summary
-
-            </h4>
-
-            <p class="lead mt-3 mb-0">
-
-                {{ weather.icon }}
-
-                The current weather in
-
-                <strong>{{ weather.city }}</strong>
-
-                is
-
-                <strong>{{ weather.weather_code }}</strong>
-
-                with a temperature of
-
-                <strong>{{ weather.temperature }}°C</strong>.
-
-            </p>
-
-        </div>
-
-    </div>
-
-
-    <!-- ================= 7 DAY FORECAST ================= -->
-
-    <div class="card border-0 shadow-lg rounded-4 mb-5">
-
-        <div class="card-header bg-success text-white text-center py-4">
-
-            <h2 class="mb-1">
-                📅 7-Day Weather Forecast
-            </h2>
-
-            <p class="mb-0">
-
-                Plan your farming activities according to upcoming weather.
-
-            </p>
-
-        </div>
-
-
-        <div class="card-body p-4">
-
-            {% if weather.forecast %}
-
-            <div class="row g-4">
-
-                {% for day in weather.forecast %}
-
-                <div class="col-lg-4 col-md-6">
-
-                    <div class="forecast-card h-100">
-
-
-                        <!-- DATE -->
+                        <!-- DAY -->
 
                         <h5 class="fw-bold text-success">
 
-                            📅 {{ day.date }}
+                            {{ day.day }}
 
                         </h5>
 
 
+                        <!-- DATE -->
+
+                        <p class="text-muted mb-3">
+
+                            📅 {{ day.date }}
+
+                        </p>
+
+
                         <!-- ICON -->
 
-                        <div class="forecast-icon">
+                        <div
+                            style="
+                                font-size: 55px;
+                                margin: 10px 0;
+                            "
+                        >
 
                             {{ day.icon }}
 
                         </div>
 
 
-                        <!-- CONDITION -->
+                        <!-- WEATHER CONDITION -->
 
-                        <h6 class="fw-bold mb-3">
+                        <h6 class="fw-bold mb-4">
 
-                            {{ day.condition }}
+                            {{ day.weather }}
 
                         </h6>
 
 
                         <!-- TEMPERATURE -->
 
-                        <div class="temperature-range mb-3">
+                        <div class="mb-3">
 
                             <span class="text-danger fw-bold">
 
@@ -324,7 +358,9 @@ Weather Dashboard | AgriVision AI
 
                             </span>
 
-                            &nbsp;&nbsp;
+                            <span class="mx-2">
+                                |
+                            </span>
 
                             <span class="text-primary fw-bold">
 
@@ -335,30 +371,11 @@ Weather Dashboard | AgriVision AI
                         </div>
 
 
-                        <!-- RAIN PROBABILITY -->
+                        <!-- EXPECTED RAIN -->
 
-                        <p class="mb-2">
+                        <div>
 
                             🌧️
-
-                            <strong>
-                                Rain Probability:
-                            </strong>
-
-                            <span class="text-info fw-bold">
-
-                                {{ day.rain_probability }}%
-
-                            </span>
-
-                        </p>
-
-
-                        <!-- RAINFALL -->
-
-                        <p class="mb-0">
-
-                            💦
 
                             <strong>
                                 Expected Rain:
@@ -366,142 +383,150 @@ Weather Dashboard | AgriVision AI
 
                             <span class="text-info fw-bold">
 
-                                {{ day.rainfall }} mm
+                                {{ day.rain }} mm
 
                             </span>
 
-                        </p>
+                        </div>
 
 
                     </div>
 
                 </div>
 
-                {% endfor %}
 
             </div>
 
-            {% else %}
+            {% endfor %}
 
-            <div class="text-center py-5">
 
-                <div style="font-size:50px;">
-                    🌤️
-                </div>
+        </div>
 
-                <h5 class="text-muted mt-3">
 
-                    Forecast data is currently unavailable.
+        {% else %}
 
-                </h5>
 
-                <p class="text-muted mb-0">
+        <!-- ================= NO FORECAST ================= -->
 
-                    Please try searching for the city again.
+        <div class="text-center py-5">
 
-                </p>
-
+            <div style="font-size: 55px;">
+                🌤️
             </div>
 
-            {% endif %}
+            <h5 class="text-muted mt-3">
+
+                Forecast data is currently unavailable.
+
+            </h5>
+
+            <p class="text-muted mb-0">
+
+                {{ weather_error|default(
+                    "Please try searching for the city again."
+                ) }}
+
+            </p>
 
         </div>
 
-    </div>
 
+        {% endif %}
 
-    <!-- ================= FARMING ADVICE ================= -->
-
-    <div class="card border-0 shadow-lg rounded-4 mb-5">
-
-        <div class="card-body p-5 text-center">
-
-            <h2 class="text-success fw-bold">
-
-                🌾 Smart Farming Weather Advice
-
-            </h2>
-
-
-            {% if weather.rain is number and weather.rain > 5 %}
-
-                <p class="lead mt-3">
-
-                    🌧️
-
-                    <strong>Rain detected!</strong>
-
-                    Consider avoiding unnecessary irrigation
-                    and protect crops from excessive water.
-
-                </p>
-
-
-            {% elif weather.temperature is number and weather.temperature > 35 %}
-
-                <p class="lead mt-3">
-
-                    ☀️
-
-                    <strong>High temperature detected!</strong>
-
-                    Make sure crops receive sufficient water
-                    and monitor them for heat stress.
-
-                </p>
-
-
-            {% elif weather.humidity is number and weather.humidity > 80 %}
-
-                <p class="lead mt-3">
-
-                    💧
-
-                    <strong>High humidity detected!</strong>
-
-                    Monitor crops carefully for fungal diseases.
-
-                </p>
-
-
-            {% else %}
-
-                <p class="lead mt-3">
-
-                    🌱
-
-                    <strong>Weather conditions look suitable.</strong>
-
-                    Continue normal farming activities while
-                    monitoring upcoming weather conditions.
-
-                </p>
-
-            {% endif %}
-
-        </div>
 
     </div>
-
-
-    <!-- ================= WEATHER DISCLAIMER ================= -->
-
-    <div class="text-center text-muted mb-4">
-
-        <small>
-
-            🌍 Weather information is fetched from Open-Meteo.
-            Forecast conditions may change over time.
-
-        </small>
-
-    </div>
-
-
-    {% endif %}
 
 </div>
 
-</section>
+
+<!-- ================= FARMING ADVICE ================= -->
+
+<div class="card border-0 shadow-lg rounded-4 mb-5">
+
+    <div class="card-body p-5 text-center">
+
+        <h2 class="text-success fw-bold">
+
+            🌾 Smart Farming Weather Advice
+
+        </h2>
+
+
+        {% if weather.rain is number and weather.rain > 5 %}
+
+        <p class="lead mt-3">
+
+            🌧️
+
+            <strong>Rain detected!</strong>
+
+            Consider avoiding unnecessary irrigation
+            and protect crops from excessive water.
+
+        </p>
+
+
+        {% elif weather.temperature is number and weather.temperature > 35 %}
+
+        <p class="lead mt-3">
+
+            ☀️
+
+            <strong>High temperature detected!</strong>
+
+            Make sure crops receive sufficient water
+            and monitor them for heat stress.
+
+        </p>
+
+
+        {% elif weather.humidity is number and weather.humidity > 80 %}
+
+        <p class="lead mt-3">
+
+            💧
+
+            <strong>High humidity detected!</strong>
+
+            Monitor crops carefully for fungal diseases.
+
+        </p>
+
+
+        {% else %}
+
+        <p class="lead mt-3">
+
+            🌱
+
+            <strong>Weather conditions look suitable.</strong>
+
+            Continue normal farming activities while
+            monitoring upcoming weather conditions.
+
+        </p>
+
+        {% endif %}
+
+    </div>
+
+</div>
+
+
+<!-- ================= WEATHER DISCLAIMER ================= -->
+
+<div class="text-center text-muted mb-4">
+
+    <small>
+
+        🌍 Weather information is fetched from Open-Meteo.
+        Forecast conditions may change over time.
+
+    </small>
+
+</div>
+
+
+{% endif %}
 
 {% endblock %}
