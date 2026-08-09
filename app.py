@@ -184,10 +184,16 @@ model = load_model(
 download_leaf_model()
 
 # Load leaf model
-leaf_model = load_model(
-    LEAF_MODEL_PATH,
-    "Leaf disease model",
-)
+leaf_model = None
+
+if LEAF_MODEL_PATH.exists():
+    try:
+        leaf_model = load_model(
+            LEAF_MODEL_PATH,
+            "Leaf disease model"
+        )
+    except Exception as exc:
+        print("Leaf disease model not loaded:", exc)
 
 
 # ==========================================================
