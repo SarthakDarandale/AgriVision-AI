@@ -8,4 +8,5 @@ prediction_report.pdf
 saved_predictions/prediction_history.csv
 saved_messages/
 reports/model/leaf_disease_model.pkl
+
 model/leaf_disease_model.pkl
