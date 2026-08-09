@@ -1,1 +1,9 @@
-README.md
+Flask
+joblib
+numpy
+requests
+huggingface-hub
+Pillow
+reportlab
+gunicorn
+scikit-learn
