@@ -9,7 +9,6 @@ from pathlib import Path
 import joblib
 import numpy as np
 import requests
-from huggingface_hub import hf_hub_download
 from PIL import Image, UnidentifiedImageError
 
 from crop_info import crop_info
@@ -45,23 +44,75 @@ app.config["MAX_CONTENT_LENGTH"] = 5 * 1024 * 1024
 # ==========================================================
 
 MODEL_DIR = BASE_DIR / "model"
-SAVED_PREDICTIONS_DIR = BASE_DIR / "saved_predictions"
-SAVED_MESSAGES_DIR = BASE_DIR / "saved_messages"
-REPORTS_DIR = BASE_DIR / "reports"
 
-CROP_MODEL_PATH = MODEL_DIR / "crop_model.pkl"
+SAVED_PREDICTIONS_DIR = (
+    BASE_DIR / "saved_predictions"
+)
 
-# Hugging Face leaf disease model
-LEAF_MODEL_REPO = "Sarth1602/agrivision-leaf-disease-model"
-LEAF_MODEL_FILENAME = "leaf_disease_model.pkl"
+SAVED_MESSAGES_DIR = (
+    BASE_DIR / "saved_messages"
+)
 
-# FIX:
-# This variable was missing in your previous app.py.
-LEAF_MODEL_PATH = MODEL_DIR / LEAF_MODEL_FILENAME
+REPORTS_DIR = (
+    BASE_DIR / "reports"
+)
 
-HISTORY_FILE = SAVED_PREDICTIONS_DIR / "prediction_history.csv"
-MESSAGES_FILE = SAVED_MESSAGES_DIR / "messages.csv"
-PDF_PATH = REPORTS_DIR / "prediction_report.pdf"
+CROP_MODEL_PATH = (
+    MODEL_DIR / "crop_model.pkl"
+)
+
+HISTORY_FILE = (
+    SAVED_PREDICTIONS_DIR /
+    "prediction_history.csv"
+)
+
+MESSAGES_FILE = (
+    SAVED_MESSAGES_DIR /
+    "messages.csv"
+)
+
+PDF_PATH = (
+    REPORTS_DIR /
+    "prediction_report.pdf"
+)
+
+
+# ==========================================================
+# LEAF DISEASE MODEL
+# ==========================================================
+#
+# IMPORTANT:
+#
+# The original leaf disease model is approximately 684 MB.
+# Render Free provides approximately 512 MB RAM.
+#
+# Therefore we DO NOT:
+#
+# 1. Download the model
+# 2. Load the model
+# 3. Store the model in RAM
+#
+# This prevents Render from exiting with status 137.
+#
+# The disease page remains available and displays a
+# deployment-friendly message.
+# ==========================================================
+
+LEAF_MODEL_ENABLED = False
+
+LEAF_MODEL_REPO = (
+    "Sarth1602/agrivision-leaf-disease-model"
+)
+
+LEAF_MODEL_FILENAME = (
+    "leaf_disease_model.pkl"
+)
+
+LEAF_MODEL_PATH = (
+    MODEL_DIR / LEAF_MODEL_FILENAME
+)
+
+leaf_model = None
 
 
 # ==========================================================
@@ -69,7 +120,9 @@ PDF_PATH = REPORTS_DIR / "prediction_report.pdf"
 # ==========================================================
 
 def ensure_directories():
-    """Create folders required by the application."""
+    """
+    Create folders required by the application.
+    """
 
     MODEL_DIR.mkdir(
         parents=True,
@@ -98,102 +151,81 @@ def ensure_directories():
 
 def load_model(path, model_name):
     """
-    Load a local joblib model and provide
-    a useful error message if loading fails.
+    Load a local joblib model.
+
+    Used only for the small crop recommendation model.
     """
 
     if not path.exists():
+
         raise FileNotFoundError(
             f"{model_name} not found at:\n{path}"
         )
 
     try:
+
         return joblib.load(path)
 
     except Exception as exc:
+
         raise RuntimeError(
             f"Unable to load {model_name}: {exc}"
         ) from exc
 
 
-def download_leaf_model():
-    """
-    Download the leaf disease model from Hugging Face
-    if it is not already available locally.
-    """
-
-    ensure_directories()
-
-    if LEAF_MODEL_PATH.exists():
-        print(
-            f"Leaf disease model found:\n"
-            f"{LEAF_MODEL_PATH}"
-        )
-        return
-
-    print("=" * 60)
-    print("Leaf disease model not found.")
-    print("Downloading from Hugging Face...")
-    print(f"Repository: {LEAF_MODEL_REPO}")
-    print(f"Filename: {LEAF_MODEL_FILENAME}")
-    print("=" * 60)
-
-    try:
-        downloaded_path = hf_hub_download(
-            repo_id=LEAF_MODEL_REPO,
-            filename=LEAF_MODEL_FILENAME,
-        )
-
-        downloaded_path = Path(downloaded_path)
-
-        # Copy the downloaded model into our project model folder
-        import shutil
-
-        shutil.copy2(
-            downloaded_path,
-            LEAF_MODEL_PATH,
-        )
-
-        print(
-            "Leaf disease model downloaded successfully."
-        )
-
-    except Exception as exc:
-        raise RuntimeError(
-            "Unable to download the leaf disease model "
-            "from Hugging Face.\n\n"
-            f"Repository: {LEAF_MODEL_REPO}\n"
-            f"File: {LEAF_MODEL_FILENAME}\n\n"
-            f"Original error: {exc}"
-        ) from exc
-
-
 # ==========================================================
-# STARTUP MODEL LOADING
+# STARTUP
 # ==========================================================
 
 ensure_directories()
 
-# Crop model must already exist
-model = load_model(
-    CROP_MODEL_PATH,
-    "Crop model",
-)
 
-# Download leaf model if necessary
-download_leaf_model()
+# ==========================================================
+# CROP MODEL
+# ==========================================================
 
-# Load leaf model
-leaf_model = None
+try:
 
-if LEAF_MODEL_PATH.exists():
-    try:
-        leaf_model = load_model(
-            LEAF_MODEL_PATH,
-            "Leaf disease model"
-        )
-    except Exception as exc:
-        print("Leaf disease model not loaded:", exc)
+    model = load_model(
+        CROP_MODEL_PATH,
+        "Crop model",
+    )
+
+    print(
+        "Crop model loaded successfully."
+    )
+
+except Exception as exc:
+
+    print(
+        "ERROR: Crop model could not be loaded."
+    )
+
+    print(exc)
+
+    model = None
+
+
+# ==========================================================
+# LEAF MODEL
+# ==========================================================
+
+def get_leaf_model():
+    """
+    Leaf disease model is intentionally disabled on
+    Render Free because the model is approximately
+    684 MB and exceeds the available memory.
+
+    Returns None.
+    """
+
+    global leaf_model
+
+    if not LEAF_MODEL_ENABLED:
+
+        return None
+
+    return leaf_model
 
 
 # ==========================================================
@@ -201,8 +233,11 @@ if LEAF_MODEL_PATH.exists():
 # ==========================================================
 
 latest_prediction = None
+
 latest_details = None
+
 latest_inputs = None
+
 latest_prediction_time = None
 
 
@@ -211,25 +246,45 @@ latest_prediction_time = None
 # ==========================================================
 
 farming_tips = [
+
     "🌱 Test your soil before planting to improve crop yield.",
+
     "💧 Water crops early in the morning to reduce evaporation.",
+
     "🌾 Rotate crops every season to maintain soil fertility.",
+
     "🌿 Use organic compost to improve soil health.",
+
     "☀️ Avoid overwatering to prevent root diseases.",
+
     "🐞 Regularly inspect crops for pests and diseases.",
+
     "🌦️ Check the weather forecast before irrigating fields.",
+
     "🚜 Prepare the land properly before sowing seeds.",
+
     "🌱 Use certified quality seeds for better production.",
+
     "🧪 Apply fertilizers according to soil test results.",
+
     "🍂 Remove weeds regularly to reduce nutrient competition.",
+
     "🌾 Harvest crops at the right maturity stage.",
+
     "💦 Install drip irrigation to save water.",
+
     "🌳 Plant trees around farms to reduce soil erosion.",
+
     "🐝 Encourage pollinators like bees for better crop production.",
+
     "🌧️ Store rainwater for irrigation during dry seasons.",
+
     "🌍 Practice sustainable farming to protect the environment.",
+
     "🪱 Use vermicompost to increase soil nutrients naturally.",
+
     "☘️ Mulching helps retain soil moisture and control weeds.",
+
     "📅 Keep a record of farming activities for better planning.",
 ]
 
@@ -239,65 +294,121 @@ farming_tips = [
 # ==========================================================
 
 WEATHER_CODES = {
+
     0: "Clear Sky",
+
     1: "Mainly Clear",
+
     2: "Partly Cloudy",
+
     3: "Cloudy",
+
     45: "Fog",
+
     48: "Dense Fog",
+
     51: "Light Drizzle",
+
     53: "Moderate Drizzle",
+
     55: "Heavy Drizzle",
+
     56: "Light Freezing Drizzle",
+
     57: "Heavy Freezing Drizzle",
+
     61: "Light Rain",
+
     63: "Moderate Rain",
+
     65: "Heavy Rain",
+
     66: "Light Freezing Rain",
+
     67: "Heavy Freezing Rain",
+
     71: "Light Snow",
+
     73: "Moderate Snow",
+
     75: "Heavy Snow",
+
     77: "Snow Grains",
+
     80: "Rain Showers",
+
     81: "Moderate Rain Showers",
+
     82: "Heavy Rain Showers",
+
     85: "Light Snow Showers",
+
     86: "Heavy Snow Showers",
+
     95: "Thunderstorm",
+
     96: "Thunderstorm with Hail",
+
     99: "Severe Thunderstorm",
 }
 
 
 WEATHER_ICONS = {
+
     0: "☀️",
+
     1: "🌤️",
+
     2: "⛅",
+
     3: "☁️",
+
     45: "🌫️",
+
     48: "🌫️",
+
     51: "🌦️",
+
     53: "🌦️",
+
     55: "🌧️",
+
     56: "🌧️",
+
     57: "🌧️",
+
     61: "🌦️",
+
     63: "🌧️",
+
     65: "🌧️",
+
     66: "🌧️",
+
     67: "🌧️",
+
     71: "❄️",
+
     73: "❄️",
+
     75: "❄️",
+
     77: "❄️",
+
     80: "🌦️",
+
     81: "🌧️",
+
     82: "🌧️",
+
     85: "🌨️",
+
     86: "🌨️",
+
     95: "⛈️",
+
     96: "⛈️",
+
     99: "⛈️",
 }
 
@@ -763,7 +874,9 @@ DISEASE_INFO = {
 # ==========================================================
 
 def clean_text(value, default=""):
-    """Convert a value to safe plain text."""
+    """
+    Convert a value to safe plain text.
+    """
 
     if value is None:
         return default
@@ -771,17 +884,31 @@ def clean_text(value, default=""):
     return str(value).strip()
 
 
+# ==========================================================
+# CROP INPUT VALIDATION
+# ==========================================================
+
 def validate_crop_inputs(values):
-    """Validate crop-prediction form values."""
+    """
+    Validate crop-prediction form values.
+    """
 
     field_names = [
+
         "N",
+
         "P",
+
         "K",
+
         "temperature",
+
         "humidity",
+
         "ph",
+
         "rainfall",
+
     ]
 
     parsed = {}
@@ -794,32 +921,41 @@ def validate_crop_inputs(values):
         ).strip()
 
         if raw_value == "":
+
             raise ValueError(
                 f"Please enter {field}."
             )
 
         try:
-            number = float(raw_value)
+
+            number = float(
+                raw_value
+            )
 
         except ValueError:
+
             raise ValueError(
                 f"{field} must be a valid number."
             )
 
         if not np.isfinite(number):
+
             raise ValueError(
                 f"{field} must be a valid finite number."
             )
 
         parsed[field] = number
 
-    # Basic domain validation
+    # ------------------------------------------------------
+    # DOMAIN VALIDATION
+    # ------------------------------------------------------
 
     if (
         parsed["N"] < 0
         or parsed["P"] < 0
         or parsed["K"] < 0
     ):
+
         raise ValueError(
             "N, P and K values cannot be negative."
         )
@@ -828,6 +964,7 @@ def validate_crop_inputs(values):
         parsed["humidity"] < 0
         or parsed["humidity"] > 100
     ):
+
         raise ValueError(
             "Humidity must be between 0 and 100."
         )
@@ -836,11 +973,13 @@ def validate_crop_inputs(values):
         parsed["ph"] < 0
         or parsed["ph"] > 14
     ):
+
         raise ValueError(
             "pH must be between 0 and 14."
         )
 
     if parsed["rainfall"] < 0:
+
         raise ValueError(
             "Rainfall cannot be negative."
         )
@@ -848,11 +987,17 @@ def validate_crop_inputs(values):
     return parsed
 
 
+# ==========================================================
+# SAVE PREDICTION HISTORY
+# ==========================================================
+
 def save_prediction_to_history(
     result,
     inputs,
 ):
-    """Save crop prediction in CSV history."""
+    """
+    Save crop prediction in CSV history.
+    """
 
     ensure_directories()
 
@@ -867,42 +1012,73 @@ def save_prediction_to_history(
         writer = csv.writer(file)
 
         if not file_exists:
+
             writer.writerow([
+
                 "Date",
+
                 "Crop",
+
                 "Nitrogen",
+
                 "Phosphorus",
+
                 "Potassium",
+
                 "Temperature",
+
                 "Humidity",
+
                 "pH",
+
                 "Rainfall",
+
             ])
 
         writer.writerow([
+
             datetime.now().strftime(
                 "%d-%m-%Y %H:%M"
             ),
+
             result,
+
             inputs["N"],
+
             inputs["P"],
+
             inputs["K"],
+
             inputs["temperature"],
+
             inputs["humidity"],
+
             inputs["ph"],
+
             inputs["rainfall"],
+
         ])
 
 
-def get_disease_info(prediction):
-    """Return readable information for disease model class."""
+# ==========================================================
+# DISEASE INFORMATION
+# ==========================================================
 
-    info = DISEASE_INFO.get(prediction)
+def get_disease_info(prediction):
+    """
+    Return readable information for disease model class.
+    """
+
+    info = DISEASE_INFO.get(
+        prediction
+    )
 
     if info:
+
         return info
 
     return {
+
         "name": clean_text(
             prediction
         ).replace(
@@ -921,7 +1097,12 @@ def get_disease_info(prediction):
     }
 
 
+# ==========================================================
+# WEATHER HELPERS
+# ==========================================================
+
 def weather_code_to_text(code):
+
     return WEATHER_CODES.get(
         code,
         "Unknown Weather",
@@ -929,6 +1110,7 @@ def weather_code_to_text(code):
 
 
 def weather_code_to_icon(code):
+
     return WEATHER_ICONS.get(
         code,
         "🌍",
@@ -943,10 +1125,13 @@ def weather_code_to_icon(code):
 def home():
 
     return render_template(
+
         "index.html",
+
         tip=random.choice(
             farming_tips
         ),
+
     )
 
 
@@ -1005,32 +1190,46 @@ def contact():
     if not name or not email or not message:
 
         return render_template(
+
             "contact.html",
-            error="Please fill in all the fields.",
+
+            error=(
+                "Please fill in all the fields."
+            ),
+
         )
 
     if len(name) > 100:
 
         return render_template(
+
             "contact.html",
+
             error="Name is too long.",
+
         )
 
     if len(email) > 150:
 
         return render_template(
+
             "contact.html",
+
             error="Email is too long.",
+
         )
 
     if len(message) > 2000:
 
         return render_template(
+
             "contact.html",
+
             error=(
                 "Message is too long. "
                 "Maximum 2000 characters."
             ),
+
         )
 
     ensure_directories()
@@ -1046,28 +1245,42 @@ def contact():
         writer = csv.writer(file)
 
         if not file_exists:
+
             writer.writerow([
+
                 "Date",
+
                 "Name",
+
                 "Email",
+
                 "Message",
+
             ])
 
         writer.writerow([
+
             datetime.now().strftime(
                 "%d-%m-%Y %H:%M"
             ),
+
             name,
+
             email,
+
             message,
+
         ])
 
     return render_template(
+
         "contact.html",
+
         success=(
             "Your message has been sent successfully. "
             "Thank you for contacting AgriVision AI!"
         ),
+
     )
 
 
@@ -1095,7 +1308,10 @@ def messages():
                 )
 
                 for row in reader:
-                    messages_data.append(row)
+
+                    messages_data.append(
+                        row
+                    )
 
         except Exception as exc:
 
@@ -1107,8 +1323,11 @@ def messages():
     messages_data.reverse()
 
     return render_template(
+
         "messages.html",
+
         messages=messages_data,
+
     )
 
 
@@ -1122,17 +1341,68 @@ def messages():
 )
 def disease():
 
+    # ------------------------------------------------------
+    # GET
+    # ------------------------------------------------------
+
     if request.method == "GET":
 
         return render_template(
             "disease.html"
         )
 
+    # ------------------------------------------------------
+    # LEAF MODEL DISABLED
+    # ------------------------------------------------------
+
+    if not LEAF_MODEL_ENABLED:
+
+        return render_template(
+
+            "disease.html",
+
+            error=(
+                "Leaf disease detection is currently "
+                "disabled on the Render Free deployment "
+                "because the AI model requires more memory "
+                "than the available 512 MB instance."
+            ),
+
+        )
+
+    # ------------------------------------------------------
+    # SAFETY CHECK
+    # ------------------------------------------------------
+
+    current_leaf_model = get_leaf_model()
+
+    if current_leaf_model is None:
+
+        return render_template(
+
+            "disease.html",
+
+            error=(
+                "Leaf disease detection model is not "
+                "available on this deployment."
+            ),
+
+        )
+
+    # ------------------------------------------------------
+    # FILE CHECK
+    # ------------------------------------------------------
+
     if "leaf_image" not in request.files:
 
         return render_template(
+
             "disease.html",
-            error="Please select a leaf image.",
+
+            error=(
+                "Please select a leaf image."
+            ),
+
         )
 
     uploaded_file = request.files[
@@ -1145,61 +1415,60 @@ def disease():
     ):
 
         return render_template(
+
             "disease.html",
-            error="Please select a leaf image.",
+
+            error=(
+                "Please select a leaf image."
+            ),
+
         )
+
+    # ------------------------------------------------------
+    # IMAGE PROCESSING
+    # ------------------------------------------------------
 
     try:
 
-        # Open image
         image = Image.open(
             uploaded_file
         )
 
-        # Verify image
         image.verify()
 
-        # Re-open after verify
         uploaded_file.stream.seek(0)
 
         image = Image.open(
             uploaded_file
         )
 
-        # Convert to RGB
         image = image.convert(
             "RGB"
         )
 
-        # Resize according to model input
         image = image.resize(
             (64, 64)
         )
 
-        # Convert to NumPy
         image_array = np.array(
             image,
             dtype=np.float32,
         )
 
-        # Normalize
         image_array = (
             image_array / 255.0
         )
 
-        # Flatten
         image_array = (
             image_array.flatten()
         )
 
-        # Add batch dimension
         image_array = image_array.reshape(
             1,
             -1,
         )
 
-        # Prediction
-        prediction = leaf_model.predict(
+        prediction = current_leaf_model.predict(
             image_array
         )[0]
 
@@ -1212,10 +1481,15 @@ def disease():
         )
 
         return render_template(
+
             "disease_result.html",
+
             prediction=info["name"],
+
             recommendation=info["advice"],
+
             description=info["description"],
+
         )
 
     except (
@@ -1224,11 +1498,14 @@ def disease():
     ):
 
         return render_template(
+
             "disease.html",
+
             error=(
                 "Invalid image. Please upload a "
                 "valid JPG, JPEG or PNG leaf image."
             ),
+
         )
 
     except Exception as exc:
@@ -1239,11 +1516,14 @@ def disease():
         )
 
         return render_template(
+
             "disease.html",
+
             error=(
                 "Unable to analyze the image. "
                 "Please upload a valid JPG or PNG image."
             ),
+
         )
 
 
@@ -1258,7 +1538,9 @@ def disease():
 def weather():
 
     weather = None
+
     forecast = []
+
     weather_error = None
 
     if request.method == "POST":
@@ -1270,23 +1552,33 @@ def weather():
         if not city:
 
             return render_template(
+
                 "weather.html",
+
                 weather=None,
+
                 forecast=[],
+
                 weather_error=(
                     "Please enter a city name."
                 ),
+
             )
 
         if len(city) > 100:
 
             return render_template(
+
                 "weather.html",
+
                 weather=None,
+
                 forecast=[],
+
                 weather_error=(
                     "City name is too long."
                 ),
+
             )
 
         try:
@@ -1300,32 +1592,51 @@ def weather():
             )
 
             geo_params = {
+
                 "name": city,
+
                 "count": 1,
+
                 "language": "en",
+
                 "format": "json",
+
             }
 
             geo_response = requests.get(
+
                 geo_url,
+
                 params=geo_params,
+
                 timeout=15,
+
             )
 
             geo_response.raise_for_status()
 
-            geo_data = geo_response.json()
+            geo_data = (
+                geo_response.json()
+            )
 
             if not geo_data.get("results"):
 
                 return render_template(
+
                     "weather.html",
+
                     weather=None,
+
                     forecast=[],
+
                     weather_error=(
+
                         f"City '{city}' could not be found. "
+
                         "Please check the spelling and try again."
+
                     ),
+
                 )
 
             location = geo_data[
@@ -1383,12 +1694,17 @@ def weather():
                 "timezone": "auto",
 
                 "forecast_days": 7,
+
             }
 
             weather_response = requests.get(
+
                 weather_url,
+
                 params=weather_params,
+
                 timeout=15,
+
             )
 
             weather_response.raise_for_status()
@@ -1400,10 +1716,15 @@ def weather():
             if weather_data.get("error"):
 
                 raise RuntimeError(
+
                     weather_data.get(
+
                         "reason",
+
                         "Weather API returned an error.",
+
                     )
+
                 )
 
             # ------------------------------------------------
@@ -1456,6 +1777,7 @@ def weather():
                         current_code
                     )
                 ),
+
             }
 
             # ------------------------------------------------
@@ -1503,19 +1825,29 @@ def weather():
             )
 
             total_days = min(
+
                 len(dates),
+
                 len(max_temps),
+
                 len(min_temps),
+
                 len(rainfall),
+
                 len(daily_codes),
+
                 len(rain_probability),
+
             )
 
             for i in range(total_days):
 
                 date_object = datetime.strptime(
+
                     dates[i],
+
                     "%Y-%m-%d",
+
                 )
 
                 code = daily_codes[i]
@@ -1531,27 +1863,46 @@ def weather():
                     ),
 
                     "max_temp": round(
-                        float(max_temps[i]),
+
+                        float(
+                            max_temps[i]
+                        ),
+
                         1,
+
                     ),
 
                     "min_temp": round(
-                        float(min_temps[i]),
+
+                        float(
+                            min_temps[i]
+                        ),
+
                         1,
+
                     ),
 
                     "rainfall": round(
-                        float(rainfall[i]),
+
+                        float(
+                            rainfall[i]
+                        ),
+
                         1,
+
                     ),
 
                     "rain_probability": (
+
                         int(
                             rain_probability[i]
                         )
+
                         if rain_probability[i]
                         is not None
+
                         else 0
+
                     ),
 
                     "condition": (
@@ -1565,6 +1916,7 @@ def weather():
                             code
                         )
                     ),
+
                 })
 
             weather["forecast"] = forecast
@@ -1582,8 +1934,10 @@ def weather():
         except requests.exceptions.Timeout:
 
             weather_error = (
+
                 "The weather service took too long "
                 "to respond. Please try again."
+
             )
 
         except requests.exceptions.RequestException as exc:
@@ -1594,9 +1948,11 @@ def weather():
             )
 
             weather_error = (
+
                 "Unable to connect to the weather service. "
                 "Please check your internet connection "
                 "and try again."
+
             )
 
         except Exception as exc:
@@ -1607,20 +1963,28 @@ def weather():
             )
 
             weather_error = (
+
                 "Unable to fetch weather information. "
                 "Please try searching for the city again."
+
             )
 
-        if weather_error:
+    if weather_error:
 
-            weather = None
-            forecast = []
+        weather = None
+
+        forecast = []
 
     return render_template(
+
         "weather.html",
+
         weather=weather,
+
         forecast=forecast,
+
         weather_error=weather_error,
+
     )
 
 
@@ -1628,12 +1992,17 @@ def weather():
 # MAHARASHTRA CROPS
 # ==========================================================
 
-@app.route("/maharashtra-crops")
+@app.route(
+    "/maharashtra-crops"
+)
 def maharashtra_crops_page():
 
     return render_template(
+
         "maharashtra_crops.html",
+
         crops=maharashtra_crops,
+
     )
 
 
@@ -1653,13 +2022,19 @@ def crop_details(crop_name):
     if crop is None:
 
         return render_template(
+
             "404.html",
+
             message="Crop not found.",
+
         ), 404
 
     return render_template(
+
         "crop_details.html",
+
         crop=crop,
+
     )
 
 
@@ -1677,9 +2052,13 @@ def history():
         try:
 
             with HISTORY_FILE.open(
+
                 "r",
+
                 newline="",
+
                 encoding="utf-8",
+
             ) as file:
 
                 reader = csv.reader(
@@ -1695,6 +2074,7 @@ def history():
                 for row in reader:
 
                     if row:
+
                         history_data.append(
                             row
                         )
@@ -1709,8 +2089,11 @@ def history():
     history_data.reverse()
 
     return render_template(
+
         "history.html",
+
         history=history_data,
+
     )
 
 
@@ -1725,18 +2108,46 @@ def history():
 def predict():
 
     global latest_prediction
+
     global latest_details
+
     global latest_inputs
+
     global latest_prediction_time
+
+    # ------------------------------------------------------
+    # MODEL CHECK
+    # ------------------------------------------------------
+
+    if model is None:
+
+        return render_template(
+
+            "predict.html",
+
+            error=(
+
+                "Crop prediction model is not available. "
+                "Please contact the administrator."
+
+            ),
+
+        ), 500
 
     try:
 
-        # Validate form
+        # --------------------------------------------------
+        # VALIDATE FORM
+        # --------------------------------------------------
+
         inputs = validate_crop_inputs(
             request.form
         )
 
-        # Prepare model input
+        # --------------------------------------------------
+        # PREPARE MODEL INPUT
+        # --------------------------------------------------
+
         model_input = [[
 
             inputs["N"],
@@ -1755,30 +2166,50 @@ def predict():
 
         ]]
 
-        # Predict crop
+        # --------------------------------------------------
+        # PREDICT CROP
+        # --------------------------------------------------
+
         prediction = model.predict(
             model_input
         )
 
         result = clean_text(
+
             prediction[0],
+
             "Unknown",
+
         )
 
-        # Crop information
+        # --------------------------------------------------
+        # CROP INFORMATION
+        # --------------------------------------------------
+
         details = crop_info.get(
+
             result.lower(),
+
             {
+
                 "fertilizer": "Not Available",
+
                 "season": "Not Available",
+
                 "water": "Not Available",
+
                 "tips": (
                     "Information not available."
                 ),
+
             },
+
         )
 
-        # Save latest prediction
+        # --------------------------------------------------
+        # SAVE LATEST PREDICTION
+        # --------------------------------------------------
+
         latest_prediction = result
 
         latest_details = details
@@ -1789,13 +2220,24 @@ def predict():
             datetime.now()
         )
 
-        # Save history
+        # --------------------------------------------------
+        # SAVE HISTORY
+        # --------------------------------------------------
+
         save_prediction_to_history(
+
             result,
+
             inputs,
+
         )
 
+        # --------------------------------------------------
+        # RESULT PAGE
+        # --------------------------------------------------
+
         return render_template(
+
             "result.html",
 
             prediction=result,
@@ -1803,40 +2245,61 @@ def predict():
             details=details,
 
             moment=(
+
                 latest_prediction_time.strftime(
+
                     "%d-%m-%Y %H:%M"
+
                 )
+
             ),
 
             inputs=inputs,
+
         )
 
     except ValueError as exc:
 
         print(
+
             "Crop validation error:",
+
             exc,
+
         )
 
         return render_template(
+
             "predict.html",
+
             error=str(exc),
+
         )
 
     except Exception as exc:
 
         print(
+
             "Crop prediction error:",
+
             exc,
+
         )
 
         return render_template(
+
             "predict.html",
+
             error=(
+
                 "Unable to predict the crop. "
+
                 "Please check the entered values "
+
                 "and try again."
+
             ),
+
         )
 
 
@@ -1844,14 +2307,19 @@ def predict():
 # DOWNLOAD PDF REPORT
 # ==========================================================
 
-@app.route("/download-report")
+@app.route(
+    "/download-report"
+)
 def download_report():
 
     if latest_prediction is None:
 
         return (
+
             "Please predict a crop first.",
+
             400,
+
         )
 
     try:
@@ -1859,84 +2327,143 @@ def download_report():
         ensure_directories()
 
         doc = SimpleDocTemplate(
+
             str(PDF_PATH),
+
             pagesize=A4,
+
             rightMargin=40,
+
             leftMargin=40,
+
             topMargin=40,
+
             bottomMargin=40,
+
         )
 
-        styles = getSampleStyleSheet()
+        styles = (
+            getSampleStyleSheet()
+        )
+
+        # --------------------------------------------------
+        # STYLES
+        # --------------------------------------------------
 
         title_style = ParagraphStyle(
+
             "CustomTitle",
+
             parent=styles["Title"],
+
             fontSize=26,
+
             leading=32,
+
             alignment=TA_CENTER,
+
             textColor=colors.HexColor(
                 "#198754"
             ),
+
             spaceAfter=10,
+
         )
 
         subtitle_style = ParagraphStyle(
+
             "Subtitle",
+
             parent=styles["Heading2"],
+
             fontSize=16,
+
             leading=22,
+
             alignment=TA_CENTER,
+
             textColor=colors.HexColor(
                 "#555555"
             ),
+
             spaceAfter=25,
+
         )
 
         heading_style = ParagraphStyle(
+
             "Heading",
+
             parent=styles["Heading2"],
+
             fontSize=15,
+
             leading=20,
+
             textColor=colors.HexColor(
                 "#198754"
             ),
+
             spaceBefore=15,
+
             spaceAfter=10,
+
         )
 
         body_style = ParagraphStyle(
+
             "Body",
+
             parent=styles["BodyText"],
+
             fontSize=10.5,
+
             leading=16,
+
             textColor=colors.HexColor(
                 "#333333"
             ),
+
             spaceAfter=8,
+
         )
 
         crop_style = ParagraphStyle(
+
             "Crop",
+
             parent=styles["Heading1"],
+
             fontSize=24,
+
             leading=30,
+
             alignment=TA_CENTER,
+
             textColor=colors.HexColor(
                 "#198754"
             ),
+
             spaceBefore=10,
+
             spaceAfter=15,
+
         )
 
         footer_style = ParagraphStyle(
+
             "Footer",
+
             parent=styles["Normal"],
+
             fontSize=9,
+
             alignment=TA_CENTER,
+
             textColor=colors.HexColor(
                 "#777777"
             ),
+
         )
 
         story = []
@@ -1946,24 +2473,39 @@ def download_report():
         # --------------------------------------------------
 
         story.append(
+
             Paragraph(
+
                 "AgriVision AI",
+
                 title_style,
+
             )
+
         )
 
         story.append(
+
             Paragraph(
+
                 "Smart Agriculture Assistant",
+
                 subtitle_style,
+
             )
+
         )
 
         story.append(
+
             Paragraph(
+
                 "Crop Prediction Report",
+
                 heading_style,
+
             )
+
         )
 
         story.append(
@@ -1975,31 +2517,48 @@ def download_report():
         # --------------------------------------------------
 
         story.append(
+
             Paragraph(
+
                 "AI Recommended Crop",
+
                 heading_style,
+
             )
+
         )
 
         story.append(
+
             Paragraph(
+
                 html.escape(
+
                     str(
                         latest_prediction
                     )
+
                 ),
+
                 crop_style,
+
             )
+
         )
 
         story.append(
+
             Paragraph(
+
                 "This crop has been recommended "
                 "by the AgriVision AI Machine "
                 "Learning model based on the "
                 "provided farming conditions.",
+
                 body_style,
+
             )
+
         )
 
         story.append(
@@ -2013,15 +2572,21 @@ def download_report():
         if latest_inputs:
 
             story.append(
+
                 Paragraph(
+
                     "Input Farming Conditions",
+
                     heading_style,
+
                 )
+
             )
 
             input_rows = [
 
                 [
+
                     Paragraph(
                         "<b>Parameter</b>",
                         body_style,
@@ -2031,145 +2596,223 @@ def download_report():
                         "<b>Value</b>",
                         body_style,
                     ),
+
                 ],
 
                 [
+
                     "Nitrogen (N)",
+
                     str(
                         latest_inputs["N"]
                     ),
+
                 ],
 
                 [
+
                     "Phosphorus (P)",
+
                     str(
                         latest_inputs["P"]
                     ),
+
                 ],
 
                 [
+
                     "Potassium (K)",
+
                     str(
                         latest_inputs["K"]
                     ),
+
                 ],
 
                 [
+
                     "Temperature (°C)",
+
                     str(
                         latest_inputs[
                             "temperature"
                         ]
                     ),
+
                 ],
 
                 [
+
                     "Humidity (%)",
+
                     str(
                         latest_inputs[
                             "humidity"
                         ]
                     ),
+
                 ],
 
                 [
+
                     "pH",
+
                     str(
                         latest_inputs["ph"]
                     ),
+
                 ],
 
                 [
+
                     "Rainfall (mm)",
+
                     str(
                         latest_inputs[
                             "rainfall"
                         ]
                     ),
+
                 ],
+
             ]
 
             input_table = Table(
+
                 input_rows,
+
                 colWidths=[
+
                     250,
+
                     240,
+
                 ],
+
             )
 
             input_table.setStyle(
+
                 TableStyle([
 
                     (
+
                         "BACKGROUND",
+
                         (0, 0),
+
                         (-1, 0),
+
                         colors.HexColor(
                             "#198754"
                         ),
+
                     ),
 
                     (
+
                         "TEXTCOLOR",
+
                         (0, 0),
+
                         (-1, 0),
+
                         colors.white,
+
                     ),
 
                     (
+
                         "GRID",
+
                         (0, 0),
+
                         (-1, -1),
+
                         0.5,
+
                         colors.HexColor(
                             "#cccccc"
                         ),
+
                     ),
 
                     (
+
                         "BACKGROUND",
+
                         (0, 1),
+
                         (-1, -1),
+
                         colors.HexColor(
                             "#f5fff8"
                         ),
+
                     ),
 
                     (
+
                         "VALIGN",
+
                         (0, 0),
+
                         (-1, -1),
+
                         "MIDDLE",
+
                     ),
 
                     (
+
                         "LEFTPADDING",
+
                         (0, 0),
+
                         (-1, -1),
+
                         10,
+
                     ),
 
                     (
+
                         "RIGHTPADDING",
+
                         (0, 0),
+
                         (-1, -1),
+
                         10,
+
                     ),
 
                     (
+
                         "TOPPADDING",
+
                         (0, 0),
+
                         (-1, -1),
+
                         7,
+
                     ),
 
                     (
+
                         "BOTTOMPADDING",
+
                         (0, 0),
+
                         (-1, -1),
+
                         7,
+
                     ),
+
                 ])
+
             )
 
             story.append(
@@ -2181,10 +2824,15 @@ def download_report():
         # --------------------------------------------------
 
         story.append(
+
             Paragraph(
+
                 "Crop Information",
+
                 heading_style,
+
             )
+
         )
 
         details = (
@@ -2195,132 +2843,223 @@ def download_report():
         crop_data = [
 
             [
+
                 Paragraph(
+
                     "<b>Information</b>",
+
                     body_style,
+
                 ),
 
                 Paragraph(
+
                     "<b>Recommendation</b>",
+
                     body_style,
+
                 ),
+
             ],
 
             [
+
                 "Recommended Fertilizer",
+
                 clean_text(
+
                     details.get(
+
                         "fertilizer",
+
                         "Not Available",
+
                     ),
+
                     "Not Available",
+
                 ),
+
             ],
 
             [
+
                 "Best Season",
+
                 clean_text(
+
                     details.get(
+
                         "season",
+
                         "Not Available",
+
                     ),
+
                     "Not Available",
+
                 ),
+
             ],
 
             [
+
                 "Water Requirement",
+
                 clean_text(
+
                     details.get(
+
                         "water",
+
                         "Not Available",
+
                     ),
+
                     "Not Available",
+
                 ),
+
             ],
+
         ]
 
         crop_table = Table(
+
             crop_data,
+
             colWidths=[
+
                 210,
+
                 280,
+
             ],
+
         )
 
         crop_table.setStyle(
+
             TableStyle([
 
                 (
+
                     "BACKGROUND",
+
                     (0, 0),
+
                     (-1, 0),
+
                     colors.HexColor(
                         "#198754"
                     ),
+
                 ),
 
                 (
+
                     "TEXTCOLOR",
+
                     (0, 0),
+
                     (-1, 0),
+
                     colors.white,
+
                 ),
 
                 (
+
                     "GRID",
+
                     (0, 0),
+
                     (-1, -1),
+
                     0.5,
+
                     colors.HexColor(
                         "#cccccc"
                     ),
+
                 ),
 
                 (
+
                     "BACKGROUND",
+
                     (0, 1),
+
                     (-1, -1),
+
                     colors.HexColor(
                         "#f5fff8"
                     ),
+
                 ),
 
                 (
+
                     "VALIGN",
+
                     (0, 0),
+
                     (-1, -1),
+
                     "MIDDLE",
+
                 ),
 
                 (
+
                     "LEFTPADDING",
+
                     (0, 0),
+
                     (-1, -1),
+
                     10,
+
                 ),
 
                 (
+
                     "RIGHTPADDING",
+
                     (0, 0),
+
                     (-1, -1),
+
                     10,
+
                 ),
 
                 (
+
                     "TOPPADDING",
+
                     (0, 0),
+
                     (-1, -1),
+
                     10,
+
                 ),
 
                 (
+
                     "BOTTOMPADDING",
+
                     (0, 0),
+
                     (-1, -1),
+
                     10,
+
                 ),
+
             ])
+
         )
 
         story.append(
@@ -2332,25 +3071,43 @@ def download_report():
         # --------------------------------------------------
 
         story.append(
+
             Paragraph(
+
                 "Farming Tip",
+
                 heading_style,
+
             )
+
         )
 
         story.append(
+
             Paragraph(
+
                 html.escape(
+
                     clean_text(
+
                         details.get(
+
                             "tips",
+
                             "Information not available.",
+
                         ),
+
                         "Information not available.",
+
                     )
+
                 ),
+
                 body_style,
+
             )
+
         )
 
         # --------------------------------------------------
@@ -2362,41 +3119,65 @@ def download_report():
         )
 
         story.append(
+
             Paragraph(
+
                 "Report Information",
+
                 heading_style,
+
             )
+
         )
 
         generated_time = (
+
             datetime.now().strftime(
+
                 "%d-%m-%Y %H:%M"
+
             )
+
         )
 
         story.append(
+
             Paragraph(
+
                 f"<b>Generated On:</b> "
                 f"{generated_time}",
+
                 body_style,
+
             )
+
         )
 
         story.append(
+
             Paragraph(
+
                 "<b>System:</b> AgriVision AI "
                 "Smart Agriculture Assistant",
+
                 body_style,
+
             )
+
         )
 
         story.append(
+
             Paragraph(
+
                 "<b>Purpose:</b> AI-based crop "
                 "recommendation for smarter "
                 "farming decisions.",
+
                 body_style,
+
             )
+
         )
 
         story.append(
@@ -2404,11 +3185,16 @@ def download_report():
         )
 
         story.append(
+
             Paragraph(
+
                 "© 2026 AgriVision AI | "
                 "Diploma Final Year Project",
+
                 footer_style,
+
             )
+
         )
 
         doc.build(
@@ -2416,12 +3202,17 @@ def download_report():
         )
 
         return send_file(
+
             str(PDF_PATH),
+
             as_attachment=True,
+
             download_name=(
                 "AgriVision_Crop_Prediction_Report.pdf"
             ),
+
             mimetype="application/pdf",
+
         )
 
     except Exception as exc:
@@ -2432,9 +3223,12 @@ def download_report():
         )
 
         return (
+
             "Unable to generate the PDF report. "
             "Please try again.",
+
             500,
+
         )
 
 
@@ -2453,15 +3247,19 @@ def health():
 
         "crop_model": (
             CROP_MODEL_PATH.exists()
+            and model is not None
         ),
 
-        "leaf_model": (
-            LEAF_MODEL_PATH.exists()
-        ),
+        "leaf_model": False,
+
+        "leaf_model_enabled": False,
+
+        "deployment": "Render Free",
 
         "time": datetime.now().strftime(
             "%d-%m-%Y %H:%M:%S"
         ),
+
     }
 
 
@@ -2475,56 +3273,87 @@ def page_not_found(error):
     try:
 
         return render_template(
+
             "404.html",
+
             message=(
                 "The page you are looking "
                 "for was not found."
             ),
+
         ), 404
 
     except Exception:
 
         return (
+
             "404 - Page not found",
+
             404,
+
         )
 
+
+# ==========================================================
+# FILE TOO LARGE
+# ==========================================================
 
 @app.errorhandler(413)
 def file_too_large(error):
 
     return render_template(
+
         "disease.html",
+
         error=(
+
             "Image is too large. "
+
             "Maximum allowed size is 5 MB."
+
         ),
+
     ), 413
 
+
+# ==========================================================
+# INTERNAL SERVER ERROR
+# ==========================================================
 
 @app.errorhandler(500)
 def internal_server_error(error):
 
     print(
+
         "Internal server error:",
+
         error,
+
     )
 
     try:
 
         return render_template(
+
             "404.html",
+
             message=(
+
                 "Something went wrong. "
                 "Please try again."
+
             ),
+
         ), 500
 
     except Exception:
 
         return (
+
             "500 - Internal server error",
+
             500,
+
         )
 
 
@@ -2537,33 +3366,29 @@ if __name__ == "__main__":
     ensure_directories()
 
     print("=" * 60)
+
     print(
         "🌾 AgriVision AI Smart Agriculture Assistant"
     )
+
     print("=" * 60)
 
     print(
         f"Crop model:"
     )
+
     print(
         f"  {CROP_MODEL_PATH}"
     )
 
     print(
-        f"Leaf model:"
-    )
-    print(
-        f"  {LEAF_MODEL_PATH}"
+        f"Crop model exists:"
+        f" {CROP_MODEL_PATH.exists()}"
     )
 
     print(
-        f"Crop model exists: "
-        f"{CROP_MODEL_PATH.exists()}"
-    )
-
-    print(
-        f"Leaf model exists: "
-        f"{LEAF_MODEL_PATH.exists()}"
+        f"Leaf disease model:"
+        f" DISABLED"
     )
 
     print(
@@ -2572,8 +3397,22 @@ if __name__ == "__main__":
 
     print("=" * 60)
 
+    # Render provides the PORT environment variable.
+    # Locally, Flask will use port 5000.
+
+    port = int(
+        os.environ.get(
+            "PORT",
+            5000,
+        )
+    )
+
     app.run(
-        host="127.0.0.1",
-        port=5000,
+
+        host="0.0.0.0",
+
+        port=port,
+
         debug=False,
+
     )
